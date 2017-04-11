@@ -172,7 +172,7 @@ function printPDF()
 	var printWindow = window.open('', '', 'height=400,width=800');
 	printWindow.document.write('<html><head><title>DIV Contents</title>');
 	printWindow.document.write('<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">');
-	printWindow.document.write('<link rel="stylesheet" type="text/css" href="swot_v3_print.css">');
+	printWindow.document.write('<link rel="stylesheet" type="text/css" href="css/SWOT_v3_print.css">');
 	printWindow.document.write('</head><body >');
 	printWindow.document.write(divContents);
 	printWindow.document.write('</body></html>');

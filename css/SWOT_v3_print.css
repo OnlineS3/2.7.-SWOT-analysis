@@ -1,56 +1,71 @@
 #strengths_div {
-	background: #007CE2;
-	border-radius: 25px;
-	width: 400px;
-	height: 600px;
+	border: 1px solid #007E33;
+	width: 287px;
+	overflow: auto;
 	position: relative;
 	float: left;
-	margin: 2px
+	margin: 5px;
 }
 
 #weaknesses_div {
-	background: #E54040;
-	border-radius: 25px;
-	width: 400px;
-	height: 600px;
+	border: 1px solid #CC0000;
+	width: 287px;
+	/*height: 411px;*/
 	position: relative;
 	float:left;
-	margin: 2px
+	margin: 5px
 }
 
 #opportunities_div {
-	background: #8BC34A;
-	border-radius: 25px;
-	width: 400px;
-	height: 600px;
+	border: 1px solid #0099CC;
+	width: 287px;
+	/*height: 411px;*/
 	position: relative;
 	float:left;
 	clear: left;
-	margin: 2px
+	margin: 5px;
+	/*margin-bottom:40px;*/
 }
 
 #threats_div {
-	background: #FF9800;
-	border-radius: 25px;
-	width: 400px;
-	height: 600px;
+	border: 1px solid #FF8800;
+	width: 287px;
+	/*height: 411px;*/
 	position: relative;
 	float:left;
-	margin: 2px
+	margin: 5px;
 }
 
 div.add_value {
 	visibility: hidden;
 }
 
-div.list_scroll {
+/*div.list_scroll {
 	position:absolute;
 	width: 390;
 	height: 590;
 	left: 5;
 	word-wrap: break-word;
+}*/
+
+#swot_div {
+	width: 598px;
+	border: 1px solid black;
+	overflow:auto;
+	display:flex;
+	flex-wrap: wrap;
+}
+
+.div_title {
+	margin-top: 0px;
+	margin-bottom: 0px;
+	padding-top:5px;
+	padding-bottom: 5px;
+	padding-left: 5px;
+	color: white;
 }
 
 ul li {
 	padding: 1px 0px;
 }
+

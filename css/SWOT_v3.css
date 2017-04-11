@@ -1,65 +1,79 @@
 #strengths_div {
-	background: #007CE2;
-	border-radius: 25px;
+	border: 1px solid #007E33;
 	width: 366px;
 	height: 300px;
 	position: relative;
 	float: left;
-	margin: 2px
+	margin: 5px;
 }
 
 #weaknesses_div {
-	background: #E54040;
-	border-radius: 25px;
+	border: 1px solid #CC0000;
 	width: 366px;
 	height: 300px;
 	position: relative;
 	float:left;
-	margin: 2px
+	margin: 5px
 }
 
 #opportunities_div {
-	background: #8BC34A;
-	border-radius: 25px;
+	border: 1px solid #0099CC;
 	width: 366px;
 	height: 300px;
 	position: relative;
 	float:left;
 	clear: left;
-	margin: 2px
+	margin: 5px;
+	margin-bottom:40px;
 }
 
 #threats_div {
-	background: #FF9800;
-	border-radius: 25px;
+	border: 1px solid #FF8800;
 	width: 366px;
 	height: 300px;
 	position: relative;
 	float:left;
-	margin: 2px
+	margin: 5px;
 }
 
 #suggestions_div {
-	background: #00C851;
-	border-radius: 25px;
-	width: 740px;
-	height: 610px;
+	border: 1px solid #37474F;
+	width: 745px;
+	height: 550px;
 	position: relative;
 	clear: both;
-	margin: 2px
+	margin: 5px;
+	margin-bottom: 66px;
 }
 
 div.add_value {
 	position: absolute;
-	bottom: 5;
-	right: 50
+	bottom: 0;
+	width: 365;
 }
 
 div.list_scroll {
 	position:absolute;
-	width: 290;
-	height: 190;
+	width: 356;
+	height: 223;
 	left: 5;
+	margin-top: 5px;
 	word-wrap: break-word;
 	overflow-y: auto;
+}
+
+.div_title {
+	margin-top: 0px;
+	margin-bottom: 0px;
+	padding-top:5px;
+	padding-bottom: 5px;
+	padding-left: 5px;
+	color: white;
+}
+
+.value_textbox {
+	width: 300;
+	margin-left: 5px;
+	margin-top: 2px;
+	margin-bottom: 2px;
 }
