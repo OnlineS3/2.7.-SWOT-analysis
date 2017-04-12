@@ -37,9 +37,10 @@
 }
 
 #suggestions_div {
-	border: 1px solid #37474F;
+	/*border: 1px solid #37474F;*/
 	width: 745px;
-	height: 550px;
+	/*height: 550px;*/
+	overflow: auto;
 	position: relative;
 	clear: both;
 	margin: 5px;
@@ -76,4 +77,9 @@ div.list_scroll {
 	margin-left: 5px;
 	margin-top: 2px;
 	margin-bottom: 2px;
+}
+
+.remove-button:hover {
+	color: red;
+	cursor: pointer;
 }
