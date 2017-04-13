@@ -11,11 +11,13 @@
 		<link rel="stylesheet" href="css/layout.css" />
 		<link rel="stylesheet" href="css/header.css" />
 		<link rel="stylesheet" href="css/footer.css" />
+		<link rel="stylesheet" href="css/modal.css" />
 
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 		<!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
 		<script type="text/javascript" src="js/SWOT_v3.js"></script>
 		<script type="text/javascript" src="js/roadmap.js"></script>
+	
 	</head>
 
 	<body>
@@ -61,9 +63,9 @@
 						<div class='bottom-section'>
 							<div class="menu">
 								<ul>
-									<li><a href="about.html">About</a></li>
-									<li><a href="#">Guide</a></li>
-									<li><a href="#">Related Documents</a></li>
+									<li><a onclick="return leavingPage()" href="about.html">About</a></li>
+									<li><a onclick="return leavingPage()" href="guide.html">Guide</a></li>
+									<li><a onclick="return leavingPage()" href="related_documents.html">Related Documents</a></li>
 									<li><a id='tool' href='#'>Access to application</a></li>
 								</ul>
 							</div>
@@ -194,8 +196,8 @@
 								<li onclick="saveTextAsFile()"><i class="fa fa-floppy-o"></i> Save</li>
 								<li onclick="createAndClickFile()"><i class="fa fa-upload"></i> Load</li>
 								<li onclick="printPDF()"><i class="fa fa-download"></i> Export</li>
-								<li><i class="fa fa-question-circle-o"></i> Help</li>
-								<li onclick="window.location = 'about.html';"><i class="fa fa-info-circle"></i> About</li>
+								<li onclick="if(leavingPage()){window.location = 'guide.html'}"><i class="fa fa-question-circle-o"></i> Help</li>
+								<li onclick="if(leavingPage()){window.location = 'about.html'}"><i class="fa fa-info-circle"></i> About</li>
 							</ul>
 						</div>
 						<div class="sidemenu-readmore">
@@ -311,5 +313,5 @@
 			</div>
 		</div>
 	</body>
-
+	
 </html>

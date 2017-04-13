@@ -247,3 +247,8 @@ function printPDF()
 	
 	//printWindow.print();
 }
+
+function leavingPage()
+{
+	return confirm("Leaving this page will discard any changes you have made. Are you sure you would like to leave without saving?");
+}
