@@ -36,17 +36,49 @@
 	margin: 5px;
 }
 
+#str_opp_div {
+	border: 1px solid #FF8800;
+	width: 584px;
+	height: 300px;
+	position: relative;
+	float:left;
+	margin: 5px;
+}
+
+#str_thr_div {
+	border: 1px solid #FF8800;
+	width: 584px;
+	height: 300px;
+	position: relative;
+	float:left;
+	margin: 5px;
+}
+
+#wea_opp_div {
+	border: 1px solid #FF8800;
+	width: 584px;
+	height: 300px;
+	position: relative;
+	float:left;
+	margin: 5px;
+}
+
+#wea_thr_div {
+	border: 1px solid #FF8800;
+	width: 584px;
+	height: 300px;
+	position: relative;
+	float:left;
+	margin: 5px;
+}
+
 div.add_value {
 	visibility: hidden;
 }
 
-/*div.list_scroll {
-	position:absolute;
-	width: 390;
-	height: 590;
-	left: 5;
-	word-wrap: break-word;
-}*/
+div.add_plan {
+	visibility: hidden;
+}
 
 #swot_div {
 	width: 598px;

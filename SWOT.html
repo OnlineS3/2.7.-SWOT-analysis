@@ -3,7 +3,7 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> -->
-		<link rel="stylesheet" type="text/css" href="css/swot_v3.css">
+		<link rel="stylesheet" type="text/css" href="css/swot.css">
 		<link rel="stylesheet" type="text/css" href="css/appmenu.css">
 		<link rel="stylesheet" type="text/css" href="css/roadmap.css">
 		<title>SWOT Analysis</title>
@@ -15,8 +15,9 @@
 
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 		<!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
-		<script type="text/javascript" src="js/SWOT_v3.js"></script>
+		<script type="text/javascript" src="js/SWOT.js"></script>
 		<script type="text/javascript" src="js/roadmap.js"></script>
+		<script type="text/javascript" src="js/transition.js"></script>
 	
 	</head>
 
@@ -90,8 +91,61 @@
 				<!-- site header -->
 
 				<!-- SWOT Tool -->
-				<div style="float:left; margin-left: 66px;">
-					<h1>SWOT Analysis</h1>
+				<div style="float:left; margin-left: 66px; width:752px;">
+					<h1 id="section-title">SWOT Analysis</h1>
+
+					<div style="clear:both;">
+						<div id="swot_button" class="div-button-active" style="margin-left: 66px;" onclick="reset_layout();swot_layout();">
+							<div name="icons" style="margin:5px">
+								<i class="fa fa-thumbs-up" aria-hidden="true"></i>
+								<i class="fa fa-thumbs-down" aria-hidden="true"></i>
+								<i class="fa fa-rocket" aria-hidden="true"></i>
+								<i class="fa fa-ambulance" aria-hidden="true"></i>
+							</div>
+							<div name="text" style="margin:5px;margin-top:0px;">
+								<span>SWOT Analysis</span>
+							</div>
+						</div>
+						<div id="str_opp_button" class="div-button-inactive" onclick="reset_layout();str_opp_layout();">
+							<div name="icons" style="padding:3px">
+								<i class="fa fa-thumbs-up" aria-hidden="true"></i>
+								<i class="fa fa-rocket" aria-hidden="true"></i>
+							</div>
+							<div name="text" style="padding:3px">
+								<span>Strength and Opportunities Plan</span>
+							</div>
+						</div>
+						<div id="str_thr_button" class="div-button-inactive" onclick="reset_layout();str_thr_layout()">
+							<div name="icons" style="padding:3px">
+								<i class="fa fa-thumbs-up" aria-hidden="true"></i>
+								<i class="fa fa-ambulance" aria-hidden="true"></i>
+							</div>
+							<div name="text" style="padding:3px">
+								<span>Strength and Threats Plan</span>
+							</div>
+						</div>
+						<div id="wea_opp_button" class="div-button-inactive" onclick="reset_layout();wea_opp_layout()">
+							<div name="icons" style="padding:3px">
+								<i class="fa fa-thumbs-down" aria-hidden="true"></i>
+								<i class="fa fa-rocket" aria-hidden="true"></i>
+							</div>
+							<div name="text" style="padding:3px">
+								<span>Weakness and Opportunities Plan</span>
+							</div>
+						</div>
+						<div id="wea_thr_button" style="clear:right;" class="div-button-inactive" onclick="reset_layout();wea_thr_layout()">
+							<div name="icons" style="padding:3px">
+								<i class="fa fa-thumbs-down" aria-hidden="true"></i>
+								<i class="fa fa-ambulance" aria-hidden="true"></i>
+							</div>
+							<div name="text" style="padding:3px">
+								<span>Weakness and Threats Plan</span>
+							</div>
+						</div>
+					</div>
+
+					<p style="clear:both; font-size: 16;" id="section-description">Use these fields to identify your strengths, weaknesses, opportunities, and threats.</p>
+
 					<div id="swot_div">
 						<div id="strengths_div">
 							<div style="border-bottom: 1px solid #007E33; background: #007E33;">
@@ -149,7 +203,75 @@
 								</button>
 							</div>
 						</div>
+
+						<!-- str_opp_layout -->
+						<div id="str_opp_div">
+							<div style="border-bottom: 1px solid #007E33; background: #007E33;">
+								<h1 class="div_title"> Strengths/Opportunities Plan </h1>
+							</div>
+							<div class="list_scroll" style="width: 675px;">
+								<ul id="str_opp_ul" style="list-style: none;"></ul>
+							</div>
+							<div class="add_plan" style="border-top: 1px solid #007E33;">
+								<input class="plan_textbox" type="text" name="str_opp_input" id="str_opp_input" placeholder="Add Plan..." onkeydown = "if (event.keyCode == 13) document.getElementById('str_opp_btn').click()">
+								<button id="str_opp_btn" style="width: 51; margin-right: 5px;" onclick="addToList('str_opp')">
+									Add
+								</button>
+							</div>
+						</div>
+						<!-- str_opp_layout -->
+						<!-- str_thr_layout -->
+						<div id="str_thr_div">
+							<div style="border-bottom: 1px solid #007E33; background: #007E33;">
+								<h1 class="div_title"> Strengths/Threats Plan </h1>
+							</div>
+							<div class="list_scroll" style="width: 675px;">
+								<ul id="str_thr_ul" style="list-style: none;"></ul>
+							</div>
+							<div class="add_plan" style="border-top: 1px solid #007E33;">
+								<input class="plan_textbox" type="text" name="str_thr_input" id="str_thr_input" placeholder="Add Plan..." onkeydown = "if (event.keyCode == 13) document.getElementById('str_thr_btn').click()">
+								<button id="str_thr_btn" style="width: 51; margin-right: 5px;" onclick="addToList('str_thr')">
+									Add
+								</button>
+							</div>
+						</div>
+						<!-- str_thr_layout -->
+
+						<!-- wea_opp_layout -->
+						<div id="wea_opp_div">
+							<div style="border-bottom: 1px solid #007E33; background: #007E33;">
+								<h1 class="div_title"> Weaknesses/Opportunities Plan </h1>
+							</div>
+							<div class="list_scroll" style="width: 675px;">
+								<ul id="wea_opp_ul" style="list-style: none;"></ul>
+							</div>
+							<div class="add_plan" style="border-top: 1px solid #007E33;">
+								<input class="plan_textbox" type="text" name="wea_opp_input" id="wea_opp_input" placeholder="Add Plan..." onkeydown = "if (event.keyCode == 13) document.getElementById('wea_opp_btn').click()">
+								<button id="wea_opp_btn" style="width: 51; margin-right: 5px;" onclick="addToList('wea_opp')">
+									Add
+								</button>
+							</div>
+						</div>
+						<!-- wea_opp_layout -->
+						<!-- wea_thr_layout -->
+						<div id="wea_thr_div">
+							<div style="border-bottom: 1px solid #007E33; background: #007E33;">
+								<h1 class="div_title"> Weaknesses/Threats Plan </h1>
+							</div>
+							<div class="list_scroll" style="width: 675px;">
+								<ul id="wea_thr_ul" style="list-style: none;"></ul>
+							</div>
+							<div class="add_plan" style="border-top: 1px solid #007E33;">
+								<input class="plan_textbox" type="text" name="wea_thr_input" id="wea_thr_input" placeholder="Add Plan..." onkeydown = "if (event.keyCode == 13) document.getElementById('wea_thr_btn').click()">
+								<button id="wea_thr_btn" style="width: 51; margin-right: 5px;" onclick="addToList('wea_thr')">
+									Add
+								</button>
+							</div>
+						</div>
+						<!-- wea_thr_layout -->
+
 					</div>
+
 					<div id="suggestions_div">
 						<div style="/*border-bottom: 1px solid #37474F; background: #37474F;*/">
 							<h1 class="div_title_not"> Questions to consider: </h1>
@@ -205,7 +327,7 @@
 						</div>
 					</div>
 
-					<div style="width: 260; border: 1px solid #ddd; margin-top: 66">
+					<div style="width: 260; border: 1px solid #ddd; margin-top: 66; margin-bottom: 66px;">
 						<h2>Online Steps</h2>
 						<ul>
 							<li onclick="test(this)">

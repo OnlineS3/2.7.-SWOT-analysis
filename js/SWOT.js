@@ -2,6 +2,10 @@ var strengths = [];
 var weakness = [];
 var opportunities = [];
 var threats = [];
+var str_opp = [];
+var str_thr = [];
+var wea_opp = [];
+var wea_thr = [];
 
 /*
 This function adds a new value to the specified list (strength,weakness,opportunities, threat) and creates the html for it
@@ -40,6 +44,38 @@ function addToList(value_type)
 				threats.push(document.getElementById("threat_input").value);
 				document.getElementById("threat_ul").innerHTML = document.getElementById("threat_ul").innerHTML.concat("<li><span>" + document.getElementById("threat_input").value + "</span> <i onclick=\"removeFromList('threat', this)\" class=\"fa fa-times-circle remove-button\" aria-hidden=\"true\"></i></li>");
 				document.getElementById("threat_input").value = "";
+			}
+			break;
+		case "str_opp":
+			if(document.getElementById("str_opp_input").value != null && document.getElementById("str_opp_input").value != "")
+			{
+				str_opp.push(document.getElementById("str_opp_input").value);
+				document.getElementById("str_opp_ul").innerHTML = document.getElementById("str_opp_ul").innerHTML.concat("<li><span>" + document.getElementById("str_opp_input").value + "</span> <i onclick=\"removeFromList('str_opp', this)\" class=\"fa fa-times-circle remove-button\" aria-hidden=\"true\"></i></li>");
+				document.getElementById("str_opp_input").value = "";
+			}
+			break;
+		case "str_thr":
+			if(document.getElementById("str_thr_input").value != null && document.getElementById("str_thr_input").value != "")
+			{
+				str_thr.push(document.getElementById("str_thr_input").value);
+				document.getElementById("str_thr_ul").innerHTML = document.getElementById("str_thr_ul").innerHTML.concat("<li><span>" + document.getElementById("str_thr_input").value + "</span> <i onclick=\"removeFromList('str_thr', this)\" class=\"fa fa-times-circle remove-button\" aria-hidden=\"true\"></i></li>");
+				document.getElementById("str_thr_input").value = "";
+			}
+			break;
+		case "wea_opp":
+			if(document.getElementById("wea_opp_input").value != null && document.getElementById("wea_opp_input").value != "")
+			{
+				wea_opp.push(document.getElementById("wea_opp_input").value);
+				document.getElementById("wea_opp_ul").innerHTML = document.getElementById("wea_opp_ul").innerHTML.concat("<li><span>" + document.getElementById("wea_opp_input").value + "</span> <i onclick=\"removeFromList('wea_opp', this)\" class=\"fa fa-times-circle remove-button\" aria-hidden=\"true\"></i></li>");
+				document.getElementById("wea_opp_input").value = "";
+			}
+			break;
+		case "wea_thr":
+			if(document.getElementById("wea_thr_input").value != null && document.getElementById("wea_thr_input").value != "")
+			{
+				wea_thr.push(document.getElementById("wea_thr_input").value);
+				document.getElementById("wea_thr_ul").innerHTML = document.getElementById("wea_thr_ul").innerHTML.concat("<li><span>" + document.getElementById("wea_thr_input").value + "</span> <i onclick=\"removeFromList('wea_thr', this)\" class=\"fa fa-times-circle remove-button\" aria-hidden=\"true\"></i></li>");
+				document.getElementById("wea_thr_input").value = "";
 			}
 			break;
 	}
@@ -110,6 +146,68 @@ function removeFromList(value_type, element)
 				for(i = 0; i < threats.length; i++)
 				{
 					document.getElementById("threat_ul").innerHTML = document.getElementById("threat_ul").innerHTML.concat("<li><span>" + threats[i] + "</span> <i onclick=\"removeFromList('threat', this)\" class=\"fa fa-times-circle remove-button\" aria-hidden=\"true\"></i></li>");
+				}
+			}
+			break;
+		case "str_opp":
+			console.log("in str opp");
+			if(str_opp.length > 0)
+			{
+				var li_element = element.parentNode;
+				var span_element = element.previousElementSibling;
+				console.log(span_element.innerHTML);
+				var index = str_opp.indexOf(span_element.innerHTML);
+				str_opp.splice(index, 1);
+				document.getElementById("str_opp_ul").innerHTML = "";
+
+				for(i = 0; i < str_opp.length; i++)
+				{
+					document.getElementById("str_opp_ul").innerHTML = document.getElementById("str_opp_ul").innerHTML.concat("<li><span>" + str_opp[i] + "</span> <i onclick=\"removeFromList('str_opp', this)\" class=\"fa fa-times-circle remove-button\" aria-hidden=\"true\"></i></li>");
+				}
+			}
+			break;
+		case "str_thr":
+			if(str_thr.length > 0)
+			{
+				var li_element = element.parentNode;
+				var span_element = element.previousElementSibling;
+				var index = str_thr.indexOf(span_element.innerHTML);
+				str_thr.splice(index, 1);
+				document.getElementById("str_thr_ul").innerHTML = "";
+
+				for(i = 0; i < str_thr.length; i++)
+				{
+					document.getElementById("str_thr_ul").innerHTML = document.getElementById("str_thr_ul").innerHTML.concat("<li><span>" + str_thr[i] + "</span> <i onclick=\"removeFromList('str_thr', this)\" class=\"fa fa-times-circle remove-button\" aria-hidden=\"true\"></i></li>");
+				}
+			}
+			break;
+		case "wea_opp":
+			if(wea_opp.length > 0)
+			{
+				var li_element = element.parentNode;
+				var span_element = element.previousElementSibling;
+				var index = wea_opp.indexOf(span_element.innerHTML);
+				wea_opp.splice(index, 1);
+				document.getElementById("wea_opp_ul").innerHTML = "";
+
+				for(i = 0; i < wea_opp.length; i++)
+				{
+					document.getElementById("wea_opp_ul").innerHTML = document.getElementById("wea_opp_ul").innerHTML.concat("<li><span>" + wea_opp[i] + "</span> <i onclick=\"removeFromList('wea_opp', this)\" class=\"fa fa-times-circle remove-button\" aria-hidden=\"true\"></i></li>");
+				}
+			}
+			break;
+		case "wea_thr":
+			if(wea_thr.length > 0)
+			{
+				var li_element = element.parentNode;
+				var span_element = element.previousElementSibling;
+				var index = wea_thr.indexOf(span_element.innerHTML);
+				wea_thr.splice(index, 1);
+				document.getElementById("wea_thr_ul").innerHTML = "";
+
+				for(i = 0; i < wea_thr.length; i++)
+				{
+					document.getElementById("wea_thr_ul").innerHTML = document.getElementById("wea_thr_ul").innerHTML.concat("<li><span>" + wea_thr[i] + "</span> <i onclick=\"removeFromList('wea_thr', this)\" class=\"fa fa-times-circle remove-button\" aria-hidden=\"true\"></i></li>");
 				}
 			}
 			break;
@@ -239,7 +337,7 @@ function printPDF()
 	var printWindow = window.open('', '', 'height=400,width=800');
 	printWindow.document.write('<html><head><title>DIV Contents</title>');
 	printWindow.document.write('<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">');
-	printWindow.document.write('<link rel="stylesheet" type="text/css" href="css/SWOT_v3_print.css">');
+	printWindow.document.write('<link rel="stylesheet" type="text/css" href="css/SWOT_print.css">');
 	printWindow.document.write('</head><body >');
 	printWindow.document.write(divContents);
 	printWindow.document.write('</body></html>');

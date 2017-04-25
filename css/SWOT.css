@@ -1,0 +1,183 @@
+#strengths_div {
+	border: 1px solid #007E33;
+	width: 366px;
+	height: 300px;
+	position: relative;
+	float: left;
+	margin: 5px;
+}
+
+#weaknesses_div {
+	border: 1px solid #CC0000;
+	width: 366px;
+	height: 300px;
+	position: relative;
+	float:left;
+	margin: 5px
+}
+
+#opportunities_div {
+	border: 1px solid #0099CC;
+	width: 366px;
+	height: 300px;
+	position: relative;
+	float:left;
+	clear: left;
+	margin: 5px;
+	margin-bottom:40px;
+}
+
+#threats_div {
+	border: 1px solid #FF8800;
+	width: 366px;
+	height: 300px;
+	position: relative;
+	float:left;
+	margin: 5px;
+}
+
+#suggestions_div {
+	/*border: 1px solid #37474F;*/
+	width: 745px;
+	/*height: 550px;*/
+	overflow: auto;
+	position: relative;
+	clear: both;
+	margin: 5px;
+	margin-bottom: 66px;
+}
+
+#str_opp_div {
+	display:none;
+	border: 1px solid #007E33;
+	width: 742px;
+	height: 300px;
+	position: relative;
+	float:left;
+	margin: 5px;
+	margin-bottom: 40px;
+}
+
+#str_thr_div {
+	display:none;
+	border: 1px solid #007E33;
+	width: 742px;
+	height: 300px;
+	position: relative;
+	float:left;
+	margin: 5px;
+	margin-bottom: 40px;
+}
+
+#wea_opp_div {
+	display:none;
+	border: 1px solid #007E33;
+	width: 742px;
+	height: 300px;
+	position: relative;
+	float:left;
+	margin: 5px;
+	margin-bottom: 40px;
+}
+
+#wea_thr_div {
+	display:none;
+	border: 1px solid #007E33;
+	width: 742px;
+	height: 300px;
+	position: relative;
+	float:left;
+	margin: 5px;
+	margin-bottom: 40px;
+}
+
+div.add_value {
+	position: absolute;
+	bottom: 0;
+	width: 365;
+}
+
+div.add_plan {
+	position: absolute;
+	bottom: 0;
+	width: 741;
+}
+
+div.list_scroll {
+	position:absolute;
+	width: 356;
+	height: 223;
+	left: 5;
+	margin-top: 5px;
+	word-wrap: break-word;
+	overflow-y: auto;
+}
+
+.div_title {
+	margin-top: 0px;
+	margin-bottom: 0px;
+	padding-top:5px;
+	padding-bottom: 5px;
+	padding-left: 5px;
+	color: white;
+}
+
+.value_textbox {
+	width: 300;
+	margin-left: 5px;
+	margin-top: 2px;
+	margin-bottom: 2px;
+}
+
+.plan_textbox {
+	width: 675;
+	margin-left: 5px;
+	margin-top: 2px;
+	margin-bottom: 2px;
+}
+
+.remove-button:hover {
+	color: red;
+	cursor: pointer;
+}
+
+.div-button-inactive {
+	background-color: #f6f6f6;
+	width: 100px;
+	height: 90px;
+	margin: 15px;
+	opacity: 1;
+	float: left;
+	font-size: 13px;
+	font-family: verdana,sans-serif
+}
+
+.div-button-inactive i {
+	opacity: 0.5;
+}
+
+.div-button-inactive span {
+	opacity: 0.5;
+}
+
+.div-button-inactive:hover{
+	cursor: pointer;
+}
+
+.div-button-active i {
+	color:white;
+}
+
+.div-button-active span {
+	color: white;
+}
+
+.div-button-active {
+	background-color: #1372aa;
+	width: 100px;
+	height: 90px;
+	margin: 15px;
+	float: left;
+	font-size: 13px;
+	font-family: verdana,sans-serif
+}
