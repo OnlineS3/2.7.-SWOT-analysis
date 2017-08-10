@@ -155,6 +155,23 @@ nav#top-menu a:hover {
     color: #fff;
 }
 
+#header-main .logout-btn:hover {
+    background: #7fe37f
+}
+
+#header-main .logout-btn {
+    color: white;
+    font-weight: 600;
+    padding: 8px;
+    border-radius: 2px;
+    background: rgba(100,203,100,.85);
+    letter-spacing: 1px;
+    border: 1px solid #85dd36;
+    transition: .4s;
+    cursor: pointer;
+    font-size: 12px;
+}
+
 #header-main .login-btn:hover {
     background: #7fe37f
 }

@@ -93,21 +93,31 @@
 
 div.add_value {
 	position: absolute;
-	bottom: 0;
-	width: 365;
+	bottom: 0px;
+	width: 365px;
 }
 
 div.add_plan {
 	position: absolute;
-	bottom: 0;
-	width: 741;
+	bottom: 0px;
+	width: 741px;
 }
 
 div.list_scroll {
 	position:absolute;
-	width: 356;
-	height: 223;
-	left: 5;
+	width: 356px;
+	height: 223px;
+	left: 5px;
+	margin-top: 5px;
+	word-wrap: break-word;
+	overflow-y: auto;
+}
+
+div.large_scroll {
+	position:absolute;
+	width: 675px;
+	height: 223px;
+	left: 5px;
 	margin-top: 5px;
 	word-wrap: break-word;
 	overflow-y: auto;
@@ -123,14 +133,14 @@ div.list_scroll {
 }
 
 .value_textbox {
-	width: 300;
+	width: 300px;
 	margin-left: 5px;
 	margin-top: 2px;
 	margin-bottom: 2px;
 }
 
 .plan_textbox {
-	width: 675;
+	width: 675px;
 	margin-left: 5px;
 	margin-top: 2px;
 	margin-bottom: 2px;

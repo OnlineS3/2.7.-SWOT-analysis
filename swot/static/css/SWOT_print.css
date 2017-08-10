@@ -1,6 +1,7 @@
 #strengths_div {
 	border: 1px solid #007E33;
-	width: 287px;
+	width: 300px;
+	/*height: 300px;*/
 	overflow: auto;
 	position: relative;
 	float: left;
@@ -9,67 +10,74 @@
 
 #weaknesses_div {
 	border: 1px solid #CC0000;
-	width: 287px;
+	width: 300px;
 	/*height: 411px;*/
 	position: relative;
 	float:left;
-	margin: 5px
+	margin: 5px;
+	display:block;
 }
 
 #opportunities_div {
 	border: 1px solid #0099CC;
-	width: 287px;
+	width: 300px;
 	/*height: 411px;*/
 	position: relative;
 	float:left;
 	clear: left;
 	margin: 5px;
 	/*margin-bottom:40px;*/
+	display:block;
 }
 
 #threats_div {
 	border: 1px solid #FF8800;
-	width: 287px;
+	width: 300px;
 	/*height: 411px;*/
 	position: relative;
 	float:left;
 	margin: 5px;
+	display:block;
 }
 
 #str_opp_div {
 	border: 1px solid #FF8800;
-	width: 584px;
-	height: 300px;
+	width: 610px;
+	/*height: 300px;*/
 	position: relative;
 	float:left;
 	margin: 5px;
+	display:block;
 }
 
 #str_thr_div {
 	border: 1px solid #FF8800;
-	width: 584px;
-	height: 300px;
+	width: 610px;
+	/*height: 300px;*/
 	position: relative;
 	float:left;
 	margin: 5px;
+	display:block;
 }
 
 #wea_opp_div {
 	border: 1px solid #FF8800;
-	width: 584px;
-	height: 300px;
+	width: 610px;
+	/*height: 300px;*/
 	position: relative;
 	float:left;
 	margin: 5px;
+	display:block;
 }
 
 #wea_thr_div {
 	border: 1px solid #FF8800;
-	width: 584px;
-	height: 300px;
+	width: 610px;
+	/*height: 300px;*/
 	position: relative;
 	float:left;
 	margin: 5px;
+	display:block;
 }
 
 div.add_value {
@@ -81,9 +89,10 @@ div.add_plan {
 }
 
 #swot_div {
-	width: 598px;
-	border: 1px solid black;
-	overflow:auto;
+	/*width: 598px;*/
+	height: 1000px;
+	/*border: 1px solid black;*/
+	/*overflow:auto;*/
 	display:flex;
 	flex-wrap: wrap;
 }
@@ -101,3 +110,12 @@ ul li {
 	padding: 1px 0px;
 }
 
+div.large_scroll {
+	position:absolute;
+	width: 575px;
+	height: 223px;
+	left: 5px;
+	margin-top: 5px;
+	word-wrap: break-word;
+	overflow-y: auto;
+}

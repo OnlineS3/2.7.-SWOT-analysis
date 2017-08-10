@@ -1,0 +1,33 @@
+{% extends "swot/base.html" %}
+{% load static %}
+
+{% block addHead %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/SWOT.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/appmenu.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/roadmap.css' %}">
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="https://cdn.auth0.com/js/auth0/8.7/auth0.min.js"></script>
+<!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
+<script type="text/javascript" src="{% static 'js/SWOT.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/roadmap.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/transition.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+<!-- page content -->
+<div style="float:left; margin-left: 66px; width: 740px">
+	<h1>Related Documents</h1>
+	<ul>
+		<li><a href="https://en.wikipedia.org/wiki/SWOT_analysis">Wikipedia</a> - Wikipedia offers a basic summary and description of SWOT Analysis. It provides information on its uses and when it should be used.</li>
+		<li><a href="https://www.mindtools.com/pages/article/newTMC_05.htm">Mindtools</a> - Mindtools provides a more indepth look at SWOT Analysis. It provides information about how to properly complete the form and what sort of information to put down.</li>
+	</ul>
+</div>
+<!-- page content -->
+
+<!-- Page Menus -->
+<div style="float: left; margin-left: 66px; margin-bottom: 66px;">
+	{% include "swot/online_steps.html" %}
+</div>
+<!-- Page Menus -->
+{% endblock %}

@@ -1,0 +1,45 @@
+{% extends "swot/base.html" %}
+{% load static %}
+
+{% block addHead %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/SWOT.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/appmenu.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/roadmap.css' %}">
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="https://cdn.auth0.com/js/auth0/8.7/auth0.min.js"></script>
+<!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
+<script type="text/javascript" src="{% static 'js/SWOT.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/roadmap.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/transition.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+<!-- page content -->
+<div style="float:left; margin-left: 66px; width: 740px">
+	<h1>Guide</h1>
+	<p>
+		Fill in the SWOT Analysis Form using the following fields: <br>
+		<center><img src="{% static 'img/swot_main.png' %}"> <br></center>
+		Use these buttons to change view: <br>
+		<center><img src="{% static 'img/page_selection_button.png' %}"> <br></center>
+		Use the following views to create a plan based off the completed SWOT Analysis:
+		<center><img src="{% static 'img/swot_plan_making_views.png' %}"><br></center>
+		Use the ‘X’ to delete something from the list:<br>
+		<center><img src="{% static 'img/swot_guide_remove.png' %}"> <br></center>
+		Use the ‘Save’ button to save the current session to a file on disk:<br>
+		<center><img src="{% static 'img/swot_guide_save.png' %}"> <br></center>
+		Use the ‘Load’ button to load a file from disk into the current session:<br>
+		<center><img src="{% static 'img/swot_guide_load.png' %}"> <br></center>
+		Use the ‘Export’ button to create a new window with a print-friendly version of your lists:<br>
+		<center><img src="{% static 'img/swot_guide_export.png' %}"></center>
+	</p>
+</div>
+<!-- page content -->
+
+<!-- Page Menus -->
+<div style="float: left; margin-left: 66px; margin-bottom: 66px;">
+    {% include "swot/online_steps.html" %}
+</div>
+<!-- Page Menus -->
+{% endblock %}
