@@ -14,4 +14,5 @@ urlpatterns = [
 	url(r'^related/$', views.related, name='swot_related'),
 	url(r'^$', views.index, name='swot_index'),
 	url(r'^callback$', views.callback, name='swot_callback'),
+	url(r'^access$', views.callback, name='swot_access')
 ]
