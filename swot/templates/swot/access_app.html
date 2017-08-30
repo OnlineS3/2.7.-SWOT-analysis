@@ -266,7 +266,7 @@
 	<div class="sidemenu-div" >
 		<div>
 			<ul class="sidemenu">
-				<li id="savebutton" action="{% url 'swot_savetodb' %}" onclick="saveToDB()""><i class="fa fa-floppy-o"></i> Save</li>
+				<li id="savebutton" action="{% url 'swot_savetodb' %}" onclick="saveToDB()"><i class="fa fa-floppy-o"></i> Save</li>
 				<li id="loadbutton" action="{% url 'swot_loadfromdb' %}"onclick="getSwotcards()"><i class="fa fa-upload"></i> Load</li>
 				<li id="exportpdf" action="{% url 'swot_pdf' %}" onclick="printPDF();document.getElementById('pdf_form').submit();"><i class="fa fa-download"></i> Export</li>
 				<li onclick="if(leavingPage()){window.location = 'guide.html'}"><i class="fa fa-question-circle-o"></i> Help</li>
@@ -278,7 +278,7 @@
 		</div>
 	</div>
 
-	{% include "swot/online_steps.html" %}
+	<!-- {% include "swot/online_steps.html" %} -->
 </div>
 <!-- Page Menus -->
 {% endblock %}
