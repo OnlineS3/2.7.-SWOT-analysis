@@ -88,7 +88,7 @@
 				<h1 class="div_title"> Strengths </h1>
 			</div>
 			<div class="list_scroll">
-				<ul id="strength_ul" style="list-style: none;"></ul>
+				<ul id="strength_ul"></ul>
 			</div>
 			<div class="add_value" style="border-top: 1px solid #007E33;">
 				<input class="value_textbox" type="text" name="strength_input" id="strength_input" placeholder="Add Strength..." onkeydown = "if (event.keyCode == 13) document.getElementById('str_btn').click()">
@@ -102,7 +102,7 @@
 				<h1 class="div_title"> Weaknesses </h1>
 			</div>
 			<div class="list_scroll">
-				<ul id="weakness_ul" style="list-style: none;"></ul>
+				<ul id="weakness_ul"></ul>
 			</div>
 			<div class="add_value" style="border-top: 1px solid #CC0000;">
 				<input class="value_textbox" type="text" name="weakness_input" id="weakness_input" placeholder="Add Weakness..." onkeydown = "if (event.keyCode == 13) document.getElementById('wea_btn').click()">
@@ -116,7 +116,7 @@
 				<h1 class="div_title"> Opportunities </h1>
 			</div>
 			<div class="list_scroll">
-				<ul id="opportunities_ul" style="list-style: none;"></ul>
+				<ul id="opportunities_ul"></ul>
 			</div>
 			<div class="add_value" style="border-top: 1px solid #0099CC;">
 				<input class="value_textbox" type="text" name="opportunities_input" id="opportunities_input" placeholder="Add Opportunity..." onkeydown = "if (event.keyCode == 13) document.getElementById('opp_btn').click()">
@@ -130,7 +130,7 @@
 				<h1 class="div_title"> Threats </h1>
 			</div>
 			<div class="list_scroll">
-				<ul id="threat_ul" style="list-style: none;"></ul>
+				<ul id="threat_ul"></ul>
 			</div>
 			<div class="add_value" style="border-top: 1px solid #FF8800;">
 				<input class="value_textbox" type="text" name="threat_input" id="threat_input" placeholder="Add Threat..." onkeydown = "if (event.keyCode == 13) document.getElementById('thr_btn').click()">
@@ -146,7 +146,7 @@
 				<h1 class="div_title"> Strengths/Opportunities Plan </h1>
 			</div>
 			<div class="large_scroll">
-				<ul id="str_opp_ul" style="list-style: none;"></ul>
+				<ul id="str_opp_ul"></ul>
 			</div>
 			<div class="add_plan" style="border-top: 1px solid #007E33;">
 				<input class="plan_textbox" type="text" name="str_opp_input" id="str_opp_input" placeholder="Add Plan..." onkeydown = "if (event.keyCode == 13) document.getElementById('str_opp_btn').click()">
@@ -162,7 +162,7 @@
 				<h1 class="div_title"> Strengths/Threats Plan </h1>
 			</div>
 			<div class="large_scroll">
-				<ul id="str_thr_ul" style="list-style: none;"></ul>
+				<ul id="str_thr_ul"></ul>
 			</div>
 			<div class="add_plan" style="border-top: 1px solid #007E33;">
 				<input class="plan_textbox" type="text" name="str_thr_input" id="str_thr_input" placeholder="Add Plan..." onkeydown = "if (event.keyCode == 13) document.getElementById('str_thr_btn').click()">
@@ -179,7 +179,7 @@
 				<h1 class="div_title"> Weaknesses/Opportunities Plan </h1>
 			</div>
 			<div class="large_scroll">
-				<ul id="wea_opp_ul" style="list-style: none;"></ul>
+				<ul id="wea_opp_ul"></ul>
 			</div>
 			<div class="add_plan" style="border-top: 1px solid #007E33;">
 				<input class="plan_textbox" type="text" name="wea_opp_input" id="wea_opp_input" placeholder="Add Plan..." onkeydown = "if (event.keyCode == 13) document.getElementById('wea_opp_btn').click()">
@@ -195,7 +195,7 @@
 				<h1 class="div_title"> Weaknesses/Threats Plan </h1>
 			</div>
 			<div class="large_scroll">
-				<ul id="wea_thr_ul" style="list-style: none;"></ul>
+				<ul id="wea_thr_ul"></ul>
 			</div>
 			<div class="add_plan" style="border-top: 1px solid #007E33;">
 				<input class="plan_textbox" type="text" name="wea_thr_input" id="wea_thr_input" placeholder="Add Plan..." onkeydown = "if (event.keyCode == 13) document.getElementById('wea_thr_btn').click()">
@@ -268,6 +268,8 @@
 			<ul class="sidemenu">
 				<li id="savebutton" action="{% url 'swot_savetodb' %}" onclick="saveToDB()"><i class="fa fa-floppy-o"></i> Save</li>
 				<li id="loadbutton" action="{% url 'swot_loadfromdb' %}"onclick="getSwotcards()"><i class="fa fa-upload"></i> Load</li>
+				<li id="loadtables" onclick="createAndClickFile()" action="{% url 'bscapp_loadtables'%}"><i class="fa fa-upload"></i> Upload from JSON</li>
+                <li onclick="setSaveForm();"><i class="fa fa-download "></i> Export to JSON</li>
 				<li id="exportpdf" action="{% url 'swot_pdf' %}" onclick="printPDF();document.getElementById('pdf_form').submit();"><i class="fa fa-download"></i> Export</li>
 				<li onclick="if(leavingPage()){window.location = 'guide.html'}"><i class="fa fa-question-circle-o"></i> Help</li>
 				<li onclick="if(leavingPage()){window.location = 'about.html'}"><i class="fa fa-info-circle"></i> About</li>

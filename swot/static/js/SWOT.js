@@ -683,3 +683,43 @@ $(document).ready(function() {
       });
     });
 });
+
+/*
+This creates an input element of type 'file' and clicks it.
+The effect is a file selction pop-up.
+*/
+function createAndClickFile()
+{
+	var test = document.createElement("input");
+	test.type = "file";
+	test.id = "createdfilebutton"
+	//test.style.display = "none";
+	test.onchange = loadFileAsText;
+	document.body.appendChild(test);
+	test.click();
+}
+
+/*
+This method loads a text file from disk and adds its contents to the lists on the page.
+*/
+function loadFileAsText()
+{
+	console.log("Loading JSON File");
+	var fileToLoad = document.getElementById("createdfilebutton").files[0];
+	document.body.removeChild(document.getElementById("createdfilebutton"));
+
+	var fileReader = new FileReader();
+	fileReader.onload = function(fileLoadedEvent)
+	{
+		var input = fileLoadedEvent.target.result;
+		loadJson(input);
+	};
+	fileReader.readAsText(fileToLoad, "UTF-8");
+	//document.body.removeChild(test);
+}
+
+function setSaveForm()
+{
+	document.getElementById("tablejson_save").value = generateJSON();
+	document.getElementById("download_data_form").submit();
+}

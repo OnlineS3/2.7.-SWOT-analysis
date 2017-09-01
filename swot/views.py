@@ -34,7 +34,7 @@ def saveswot(request):
 
 	swotcard_name = parsed_json["swotcard_name"]
 	if Swotcard.objects.filter(swotcard_name=swotcard_name).count() == 0:
-		swotcard_instance = Swotcard.objects.create(user_email=request.session['swot_profile']['email'], swotcard_name=swotcard_name)
+		swotcard_instance = Swotcard.objects.create(user_email=request.session['swot_profile']['nickname'], swotcard_name=swotcard_name)
 		swotcard_instance.save()
 	
 	swotcard = Swotcard.objects.filter(swotcard_name=swotcard_name).first()
@@ -180,7 +180,7 @@ def loadswot(request):
 	return HttpResponse(text_json)
 
 def get_swotcard_for_user(request):
-	user = request.session['swot_profile']['email']
+	user = request.session['swot_profile']['nickname']
 	swotcards = Swotcard.objects.filter(user_email=user)
 	swotcards_json = '{"swotcards":['
 
