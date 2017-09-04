@@ -263,6 +263,18 @@
 		<input type="hidden" id="html_string" name="html_string" value="">
 	</form>
 
+    <!--
+    <form id="loadfromshareid" method="get" action="{% url 'swot_loadfromdb' %}">
+        <input id="share_id" type="text" name="share_id">
+    </form>
+    <button onclick="loadFromShareId()">Load from Share_id</button>
+    -->
+
+    <form id="download_data_form" method="post" action="{% url 'swot_downloaddata' %}">
+        {% csrf_token %}
+        <input type="hidden" id="tablejson_save" name="tablejson">
+    </form>
+
 	<div class="sidemenu-div" >
 		<div>
 			<ul class="sidemenu">

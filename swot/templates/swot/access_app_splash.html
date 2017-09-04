@@ -1,0 +1,34 @@
+{% extends "swot/base.html" %}
+{% load static %}
+
+{% block addHead %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/SWOT.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/appmenu.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/roadmap.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/modal.css' %}">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://cdn.auth0.com/js/auth0/8.7/auth0.min.js"></script>
+    <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
+    <script type="text/javascript" src="{% static 'js/SWOT.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/roadmap.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/transition.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+    <div style="float:left; margin-left: 66px; width:752px;">
+	    <h1 id="section-title">SWOT Analysis</h1>
+        <form method="get" action="{% url 'swot_swotapp' %}">
+            <input type="hidden" name="type" value="simple">
+            <input type="submit" value="Create Simple">
+        </form>
+
+        <form method="get" action="{% url 'swot_swotapp' %}">
+            <input type="hidden" name="type" value="advanced">
+            <input type="submit" value="Advanced Simple">
+        </form>
+
+
+        <button>Load</button>
+    </div>
+{% endblock %}

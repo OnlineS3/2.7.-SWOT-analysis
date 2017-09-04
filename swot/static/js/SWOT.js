@@ -7,6 +7,30 @@ var str_thr = [];
 var wea_opp = [];
 var wea_thr = [];
 
+$.ajaxSetup({
+	     beforeSend: function(xhr, settings) {
+	         function getCookie(name) {
+	             var cookieValue = null;
+	             if (document.cookie && document.cookie != '') {
+	                 var cookies = document.cookie.split(';');
+	                 for (var i = 0; i < cookies.length; i++) {
+	                     var cookie = jQuery.trim(cookies[i]);
+	                     // Does this cookie string begin with the name we want?
+	                     if (cookie.substring(0, name.length + 1) == (name + '=')) {
+	                         cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+	                         break;
+	                     }
+	                 }
+	             }
+	             return cookieValue;
+	         }
+	         if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+	             // Only send the token to relative URLs i.e. locally.
+	             xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+	         }
+	     }
+	});
+
 /*
 This function adds a new value to the specified list (strength,weakness,opportunities, threat) and creates the html for it
 */
@@ -351,29 +375,6 @@ function generateJSON()
 
 function saveToDB()
 {
-	$.ajaxSetup({ 
-	     beforeSend: function(xhr, settings) {
-	         function getCookie(name) {
-	             var cookieValue = null;
-	             if (document.cookie && document.cookie != '') {
-	                 var cookies = document.cookie.split(';');
-	                 for (var i = 0; i < cookies.length; i++) {
-	                     var cookie = jQuery.trim(cookies[i]);
-	                     // Does this cookie string begin with the name we want?
-	                     if (cookie.substring(0, name.length + 1) == (name + '=')) {
-	                         cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-	                         break;
-	                     }
-	                 }
-	             }
-	             return cookieValue;
-	         }
-	         if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
-	             // Only send the token to relative URLs i.e. locally.
-	             xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
-	         }
-	     } 
-	});
 	$.ajax({url: document.getElementById("savebutton").getAttribute("action"),
 			type: "POST",
 			data: {
@@ -395,34 +396,31 @@ function loadFromDB()
 {
 	select = document.getElementById("swotcard_select");
 	selected_option = select.options[select.selectedIndex].value;
-	$.ajaxSetup({ 
-	     beforeSend: function(xhr, settings) {
-	         function getCookie(name) {
-	             var cookieValue = null;
-	             if (document.cookie && document.cookie != '') {
-	                 var cookies = document.cookie.split(';');
-	                 for (var i = 0; i < cookies.length; i++) {
-	                     var cookie = jQuery.trim(cookies[i]);
-	                     // Does this cookie string begin with the name we want?
-	                     if (cookie.substring(0, name.length + 1) == (name + '=')) {
-	                         cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-	                         break;
-	                     }
-	                 }
-	             }
-	             return cookieValue;
-	         }
-	         if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
-	             // Only send the token to relative URLs i.e. locally.
-	             xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
-	         }
-	     } 
-	});
 
 	$.ajax({url: document.getElementById("loadbutton").getAttribute("action"),
 			type: "POST",
 			data: {
 				swotcard_name: selected_option
+			},
+			success: function(result){
+				loadJson(result);
+				console.log("success: " + result);
+				hideModal("swotcard_load_modal");
+			},
+			error: function(xhr, status, error){
+				console.log("xhr: " + xhr.responseText);
+				console.log("status: " + status);
+				console.log("error: " + error);
+			}
+	});
+}
+
+function loadFromShareId()
+{
+	$.ajax({url: document.getElementById("loadfromshareid").getAttribute("action"),
+			type: "POST",
+			data: {
+				swotcard_share_id: document.getElementById("share_id").value
 			},
 			success: function(result){
 				loadJson(result);
@@ -554,30 +552,6 @@ function hideSwotcardNameEdit()
 
 function getSwotcards()
 {
-	$.ajaxSetup({ 
-	     beforeSend: function(xhr, settings) {
-	         function getCookie(name) {
-	             var cookieValue = null;
-	             if (document.cookie && document.cookie != '') {
-	                 var cookies = document.cookie.split(';');
-	                 for (var i = 0; i < cookies.length; i++) {
-	                     var cookie = jQuery.trim(cookies[i]);
-	                     // Does this cookie string begin with the name we want?
-	                     if (cookie.substring(0, name.length + 1) == (name + '=')) {
-	                         cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-	                         break;
-	                     }
-	                 }
-	             }
-	             return cookieValue;
-	         }
-	         if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
-	             // Only send the token to relative URLs i.e. locally.
-	             xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
-	         }
-	     } 
-	});
-
 	$.ajax({url: document.getElementById("getswotcards").getAttribute("action"),
 			type: "GET",
 			success: function(result){
@@ -626,30 +600,6 @@ function hideModal(modalId)
 
 function exportPdf()
 {
-	$.ajaxSetup({ 
-	     beforeSend: function(xhr, settings) {
-	         function getCookie(name) {
-	             var cookieValue = null;
-	             if (document.cookie && document.cookie != '') {
-	                 var cookies = document.cookie.split(';');
-	                 for (var i = 0; i < cookies.length; i++) {
-	                     var cookie = jQuery.trim(cookies[i]);
-	                     // Does this cookie string begin with the name we want?
-	                     if (cookie.substring(0, name.length + 1) == (name + '=')) {
-	                         cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-	                         break;
-	                     }
-	                 }
-	             }
-	             return cookieValue;
-	         }
-	         if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
-	             // Only send the token to relative URLs i.e. locally.
-	             xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
-	         }
-	     } 
-	});
-
 	$.ajax({url: document.getElementById("exportpdf").getAttribute("action"),
 			type: "POST",
 			data: {

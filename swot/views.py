@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect
-import json
+import json, hashlib
 import pdfkit
 from django.http import HttpResponse, FileResponse
 from auth0.v3.authentication import GetToken
@@ -15,8 +15,14 @@ client_secret = "UYOXjkj4aEW17VJKpOVK4d_zlbCotc2buElEX1MnTiMjYiW6I_1uzFccK_iYEPz
 def index(request):
 	return render(request, 'swot/index.html')
 
+def swotapp(request):
+	#context = {"type": request.GET["type"]}
+	if 'type' in request.GET:
+		request.session['swot_type'] = request.GET['type']
+	return render(request, 'swot/access_app.html')
+
 def about(request):
-	return render(request, 'swot/about.html')
+	return render(request, 'swot/index.html')
 
 def guide(request):
 	return render(request, 'swot/guide.html')
@@ -25,8 +31,8 @@ def related(request):
 	return render(request, 'swot/related_documents.html')
 
 def login_view(request):
-	request.session['swot_profile'] = json.loads('{"email": "' + request.POST['username'] + '"}')
-	return redirect('swot_index')
+	request.session['swot_profile'] = json.loads('{"nickname": "' + request.POST['username'] + '"}')
+	return redirect('swot_swotapp')
 
 def saveswot(request):
 	text_json = request.POST['text_json']
@@ -34,7 +40,9 @@ def saveswot(request):
 
 	swotcard_name = parsed_json["swotcard_name"]
 	if Swotcard.objects.filter(swotcard_name=swotcard_name).count() == 0:
-		swotcard_instance = Swotcard.objects.create(user_email=request.session['swot_profile']['nickname'], swotcard_name=swotcard_name)
+		share_id_instance = hashlib.sha1(swotcard_name+request.session['swot_profile']['nickname']).hexdigest()
+		print share_id_instance
+		swotcard_instance = Swotcard.objects.create(user_email=request.session['swot_profile']['nickname'], swotcard_name=swotcard_name, share_id=share_id_instance, share_permissions=0)
 		swotcard_instance.save()
 	
 	swotcard = Swotcard.objects.filter(swotcard_name=swotcard_name).first()
@@ -51,6 +59,7 @@ def saveswot(request):
 
 	existing_rows = Swotrow.objects.filter(swotcard=swotcard)
 
+	#if row no longer exists, delete it
 	for i in existing_rows:
 		if(not any(i.value == j for j in parsed_json["observations"]["strengths"]) and 
 			    not any(i.value == j for j in parsed_json["observations"]["weaknesses"]) and
@@ -62,6 +71,7 @@ def saveswot(request):
 			    not any(i.value == j for j in parsed_json["analysis"]["wea_thr"])):
 			i.delete()
 
+	#if row doesnt exist yet, create it
 	for row in parsed_json["observations"]["strengths"]:
 		if not any(i.value == row for i in existing_rows):
 			swotrow_instance = Swotrow.objects.create(swotcard=swotcard, quadrant=0, value=row)
@@ -105,8 +115,14 @@ def saveswot(request):
 	return HttpResponse(text_json)
 
 def loadswot(request):
-	swotcard_name = request.POST["swotcard_name"]
-	swotcard = Swotcard.objects.filter(swotcard_name=swotcard_name).first()
+	swotcard = ""
+	swotcard_name = ""
+	if 'swotcard_name' in request.POST:
+		swotcard_name = request.POST["swotcard_name"]
+		swotcard = Swotcard.objects.filter(swotcard_name=swotcard_name).first()
+	elif 'swotcard_share_id' in request.POST:
+		swotcard = Swotcard.objects.filter(share_id=request.POST["swotcard_share_id"]).first()
+		swotcard_name = swotcard.swotcard_name
 
 	strengths = Swotrow.objects.filter(swotcard=swotcard, quadrant=0)
 	weaknesses = Swotrow.objects.filter(swotcard=swotcard, quadrant=1)
@@ -221,11 +237,17 @@ def callback(request):
 	user_info = auth0_users.userinfo(token['access_token'])
 	request.session['swot_profile'] = json.loads(user_info)
 	#save user to db and session
-	return redirect('swot_index')
+	return redirect('swot_swotapp')
 
 def logout(request):
 	request.session['swot_profile'] = None
 	#parsed_base_url = urlparse('http://li1088-54.members.linode.com:8082/bscapp/callback/')
 	#base_url = parsed_base_url.scheme + '://' + parsed_base_url.netloc
 	#return redirect('https://%s/v2/logout?returnTo=%s&client_id=%s' % ('onlines3.eu.auth0.com', base_url, 'vE0hJ4Gx1uYG9LBtuxgqY7CTIFmKivFH'))
-	return redirect('swot_index')
+	return redirect('swot_swotapp')
+
+def download_data(request):
+	json_string = request.POST['tablejson']
+	response = FileResponse(json_string, content_type='application/json')
+	response['Content-Disposition'] = 'attachment; filename=swot.json'
+	return response

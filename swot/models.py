@@ -6,6 +6,11 @@ from django.db import models
 class Swotcard(models.Model):
 	user_email = models.CharField(max_length=100)
 	swotcard_name = models.CharField(max_length=100)
+	share_id = models.CharField(max_length=40)
+	share_permissions = models.IntegerField()
+	#0 = private
+	#1 = viewable
+	#2 = editable
 
 	class Meta:
 		app_label = 'swot'
