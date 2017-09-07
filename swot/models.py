@@ -22,3 +22,10 @@ class Swotrow(models.Model):
 
 	class Meta:
 		app_label = 'swot'
+
+class Shares(models.Model):
+	swotcard = models.ForeignKey(Swotcard, on_delete=models.CASCADE)
+	shared_with = models.CharField(max_length=100)
+
+	class Meta:
+		app_label = 'swot'

@@ -287,7 +287,12 @@ function leavingPage()
 function generateJSON()
 {
 	swotcard_name = document.getElementById("swotcard_name").innerHTML;
-	swotcard_name_json = '"swotcard_name":"' + swotcard_name + '",';
+	swotcard_name_json = '"swotcard_name":"' + swotcard_name + '", ';
+
+	if(document.getElementById("swotcard_name").hasAttribute("share_id"))
+	{
+		swotcard_name_json = swotcard_name_json + '"share_id": "' + document.getElementById("swotcard_name").getAttribute("share_id") + '", ';
+	}
 
 	observations_json = '"observations":{';
 
@@ -381,6 +386,10 @@ function saveToDB()
 				text_json: generateJSON()
 			},
 			success: function(result){
+				var obj = JSON.parse(result);
+				if("share_id" in obj) {
+                    document.getElementById("share_id_in_modal").innerHTML = obj.share_id;
+                }
 				console.log("success: " + result);
 				alert("Scorecard succesfully saved.")
 			},
@@ -397,10 +406,15 @@ function loadFromDB()
 	select = document.getElementById("swotcard_select");
 	selected_option = select.options[select.selectedIndex].value;
 
-	$.ajax({url: document.getElementById("loadbutton").getAttribute("action"),
+	console.log(select.options[select.selectedIndex]);
+
+	if(select.options[select.selectedIndex].hasAttribute('share_id'))
+	{
+		$.ajax({
+			url: document.getElementById("loadbutton").getAttribute("action"),
 			type: "POST",
 			data: {
-				swotcard_name: selected_option
+				swotcard_share_id: select.options[select.selectedIndex].getAttribute('share_id')
 			},
 			success: function(result){
 				loadJson(result);
@@ -412,7 +426,27 @@ function loadFromDB()
 				console.log("status: " + status);
 				console.log("error: " + error);
 			}
-	});
+		});
+	}
+	else {
+        $.ajax({
+			url: document.getElementById("loadbutton").getAttribute("action"),
+			type: "POST",
+			data: {
+				swotcard_name: selected_option
+			},
+			success: function (result) {
+				loadJson(result);
+				console.log("success: " + result);
+				hideModal("swotcard_load_modal");
+			},
+			error: function (xhr, status, error) {
+				console.log("xhr: " + xhr.responseText);
+				console.log("status: " + status);
+				console.log("error: " + error);
+			}
+        });
+    }
 }
 
 function loadFromShareId()
@@ -420,7 +454,7 @@ function loadFromShareId()
 	$.ajax({url: document.getElementById("loadfromshareid").getAttribute("action"),
 			type: "POST",
 			data: {
-				swotcard_share_id: document.getElementById("share_id").value
+				swotcard_share_id: document.getElementById("share_id_input").value
 			},
 			success: function(result){
 				loadJson(result);
@@ -440,7 +474,12 @@ function loadJson(text_json)
 	var obj = JSON.parse(text_json);
 
 	document.getElementById("swotcard_name").innerHTML = obj.swotcard_name;
+	document.getElementById("swotcard_name").setAttribute("share_id", obj.share_id);
 	document.getElementById("swotcard_edit").value = obj.swotcard_name;
+	if("share_id" in obj)
+	{
+		document.getElementById("share_id_in_modal").innerHTML = obj.share_id;
+	}
 
 	console.log(Object.keys(obj));
 	var strengths_obj = obj.observations.strengths;
@@ -577,13 +616,38 @@ function populateModalSelect(input)
 
 	var obj = JSON.parse(input);
 	var cards = obj.swotcards;
-	for(i = 0; i < cards.length; i++)
+	var owned = cards.owned;
+	var shared = cards.shared;
+
+	option = document.createElement("option");
+	option.disabled = "true";
+	option.value = "-OWNED-";
+	option.innerHTML = "-OWNED-";
+	modal_select.appendChild(option);
+
+	for(i = 0; i < owned.length; i++)
 	{
 		option = document.createElement("option");
-		option.value = cards[i].swotcard_name;
-		option.innerHTML = cards[i].swotcard_name;
+		option.value = owned[i].swotcard_name;
+		option.innerHTML = owned[i].swotcard_name;
 		modal_select.appendChild(option);
 	}
+
+	option = document.createElement("option");
+	option.disabled = "true";
+	option.value = "-SHARED-";
+	option.innerHTML = "-SHARED-";
+	modal_select.appendChild(option);
+
+	for(i = 0; i < shared.length; i++)
+	{
+		option = document.createElement("option");
+		option.value = shared[i].swotcard_name;
+		option.innerHTML = shared[i].swotcard_name;
+		option.setAttribute("share_id", shared[i].share_id);
+		modal_select.appendChild(option);
+	}
+
 	document.getElementById("swotcard_load_modal").style.display = "block";
 }
 
@@ -627,7 +691,7 @@ $(document).ready(function() {
       e.preventDefault();
       auth.authorize({
         audience: 'https://' + 'onlines3.eu.auth0.com' + '/userinfo',
-        scope: 'openid profile',
+        scope: 'openid profile email',
         responseType: 'code',
         redirectUri: 'http://li1088-54.members.linode.com:8082/swot/callback'
       });
@@ -672,4 +736,33 @@ function setSaveForm()
 {
 	document.getElementById("tablejson_save").value = generateJSON();
 	document.getElementById("download_data_form").submit();
+}
+
+function openShareModal()
+{
+	if(document.getElementById('share_id_in_modal').getAttribute('loaded') == 'false')
+	{
+		//get from db
+	}
+	document.getElementById("swotcard_share_modal").style.display = "block";
+}
+
+function addToShares()
+{
+	$.ajax({url: document.getElementById("addtoshares").getAttribute("action"),
+			type: "POST",
+			data: {
+				swotcard_share_id: document.getElementById("share_id_input").value
+			},
+			success: function(result){
+				getSwotcards();
+				alert("Successfully added to your list")
+				console.log("success: " + result);
+			},
+			error: function(xhr, status, error){
+				console.log("xhr: " + xhr.responseText);
+				console.log("status: " + status);
+				console.log("error: " + error);
+			}
+	});
 }

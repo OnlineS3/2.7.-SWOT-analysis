@@ -1,13 +1,13 @@
 from django.shortcuts import render,redirect
 import json, hashlib
 import pdfkit
-from django.http import HttpResponse, FileResponse
+from django.http import HttpResponse, FileResponse, Http404
 from auth0.v3.authentication import GetToken
 from auth0.v3.authentication import Users
 
 #from weasyprint import HTML, CSS
 
-from .models import Swotrow,Swotcard
+from .models import Swotrow,Swotcard,Shares
 
 client_id = "UI4IXwkCYlZjmVqmdTMSI5yRzIEWV9l6"
 client_secret = "UYOXjkj4aEW17VJKpOVK4d_zlbCotc2buElEX1MnTiMjYiW6I_1uzFccK_iYEPzZ"
@@ -21,8 +21,6 @@ def swotapp(request):
 		request.session['swot_type'] = request.GET['type']
 	return render(request, 'swot/access_app.html')
 
-def about(request):
-	return render(request, 'swot/index.html')
 
 def guide(request):
 	return render(request, 'swot/guide.html')
@@ -37,12 +35,20 @@ def login_view(request):
 def saveswot(request):
 	text_json = request.POST['text_json']
 	parsed_json = json.loads(text_json)
-
 	swotcard_name = parsed_json["swotcard_name"]
-	if Swotcard.objects.filter(swotcard_name=swotcard_name).count() == 0:
-		share_id_instance = hashlib.sha1(swotcard_name+request.session['swot_profile']['nickname']).hexdigest()
+	swotcard = None
+
+	if "share_id" in parsed_json:
+		swotcard = Swotcard.objects.filter(swotcard_name=swotcard_name, share_id=parsed_json["share_id"]).first()
+
+		if swotcard.user_email != request.session['swot_profile']['email'] and Shares.objects.filter(swotcard=swotcard, shared_with=request.session['swot_profile']['email']).count() == 0:
+			#the user does not own the swot and user has no rights in Shares table
+			return HttpResponse("You do not have correct permissions to edit this SWOT Analysis", status="403")
+	else:# Swotcard.objects.filter(swotcard_name=swotcard_name, user_email=request.session['swot_profile']['email']).count() == 0:
+		share_id_instance = hashlib.sha1(swotcard_name+request.session['swot_profile']['email']).hexdigest()
 		print share_id_instance
-		swotcard_instance = Swotcard.objects.create(user_email=request.session['swot_profile']['nickname'], swotcard_name=swotcard_name, share_id=share_id_instance, share_permissions=0)
+		parsed_json["share_id"] = share_id_instance;
+		swotcard_instance = Swotcard.objects.create(user_email=request.session['swot_profile']['email'], swotcard_name=swotcard_name, share_id=share_id_instance, share_permissions=0)
 		swotcard_instance.save()
 	
 	swotcard = Swotcard.objects.filter(swotcard_name=swotcard_name).first()
@@ -112,16 +118,22 @@ def saveswot(request):
 			swotrow_instance = Swotrow.objects.create(swotcard=swotcard, quadrant=7, value=row)
 			swotrow_instance.save()
 	#return redirect('index')
-	return HttpResponse(text_json)
+	return HttpResponse(json.dumps(parsed_json))
 
 def loadswot(request):
 	swotcard = ""
 	swotcard_name = ""
+	share_id = ""
 	if 'swotcard_name' in request.POST:
 		swotcard_name = request.POST["swotcard_name"]
-		swotcard = Swotcard.objects.filter(swotcard_name=swotcard_name).first()
+		if Swotcard.objects.filter(swotcard_name=swotcard_name,user_email=request.session['swot_profile']['email']).count() > 0:
+			swotcard = Swotcard.objects.filter(swotcard_name=swotcard_name, user_email=request.session['swot_profile']['email']).first()
+			share_id = swotcard.share_id
+		else:
+			return HttpResponse('You do not own a SWT Analysis with that name' + str(Swotcard.objects.filter(swotcard_name=swotcard_name,user_email=request.session['swot_profile']['email']).count()), status="404")
 	elif 'swotcard_share_id' in request.POST:
 		swotcard = Swotcard.objects.filter(share_id=request.POST["swotcard_share_id"]).first()
+		share_id = request.POST["swotcard_share_id"]
 		swotcard_name = swotcard.swotcard_name
 
 	strengths = Swotrow.objects.filter(swotcard=swotcard, quadrant=0)
@@ -191,22 +203,33 @@ def loadswot(request):
 
 	observations = '"observations":{' + strengths_json + weaknesses_json + opportunities_json + threats_json + '}'
 	analysis = '"analysis": {' + str_opp_json + str_thr_json + wea_opp_json + wea_thr_json  + '}'
-	text_json = '{"swotcard_name":"' + swotcard_name +'", ' + observations +', ' + analysis +' }'
+	swotcard_share_id = '"share_id": "' + share_id + '"'
+	text_json = '{"swotcard_name":"' + swotcard_name +'", ' + observations +', ' + analysis +', ' + swotcard_share_id + ' }'
 
 	return HttpResponse(text_json)
 
 def get_swotcard_for_user(request):
-	user = request.session['swot_profile']['nickname']
+	user = request.session['swot_profile']['email']
 	swotcards = Swotcard.objects.filter(user_email=user)
-	swotcards_json = '{"swotcards":['
+	owned = ''
+	shared = ''
 
 	for sc in swotcards:
-		swotcards_json += '{"swotcard_name": "'+ sc.swotcard_name +'"},'
+		owned += '{"swotcard_name": "'+ sc.swotcard_name +'"},'
 
-	if swotcards_json.endswith(","):
-		swotcards_json = swotcards_json[:len(swotcards_json)-1]
+	if owned.endswith(","):
+		owned = owned[:len(owned)-1]
 
-	swotcards_json += ']}'
+	shares = Shares.objects.filter(shared_with=user)
+	for sc in shares:
+		swotcard = sc.swotcard
+		shared += '{"swotcard_name": "'+ swotcard.swotcard_name +'", "share_id": "' + swotcard.share_id + '"},'
+
+	if shared.endswith(","):
+		shared = shared[:len(shared)-1]
+
+	swotcards_json = '{"swotcards": {"owned":[' + owned + '],"shared": [' + shared + ']}}'
+
 	return HttpResponse(swotcards_json)
 
 def export_to_pdf(request):
@@ -237,17 +260,27 @@ def callback(request):
 	user_info = auth0_users.userinfo(token['access_token'])
 	request.session['swot_profile'] = json.loads(user_info)
 	#save user to db and session
-	return redirect('swot_swotapp')
+	return redirect('swot_index')
 
 def logout(request):
 	request.session['swot_profile'] = None
 	#parsed_base_url = urlparse('http://li1088-54.members.linode.com:8082/bscapp/callback/')
 	#base_url = parsed_base_url.scheme + '://' + parsed_base_url.netloc
 	#return redirect('https://%s/v2/logout?returnTo=%s&client_id=%s' % ('onlines3.eu.auth0.com', base_url, 'vE0hJ4Gx1uYG9LBtuxgqY7CTIFmKivFH'))
-	return redirect('swot_swotapp')
+	return redirect('swot_index')
 
 def download_data(request):
 	json_string = request.POST['tablejson']
 	response = FileResponse(json_string, content_type='application/json')
 	response['Content-Disposition'] = 'attachment; filename=swot.json'
 	return response
+
+def add_swot_to_shares(request):
+	if Swotcard.objects.filter(share_id=request.POST["swotcard_share_id"], user_email=request.session['swot_profile']['email']).count() == 0:
+		swotcard = Swotcard.objects.filter(share_id=request.POST["swotcard_share_id"]).first()
+		shared_with = request.session['swot_profile']['email']
+		if Shares.objects.filter(swotcard=swotcard, shared_with=shared_with).count() == 0:
+			shares_instance = Shares.objects.create(swotcard=swotcard, shared_with=shared_with)
+			shares_instance.save()
+
+	return HttpResponse('OK');
