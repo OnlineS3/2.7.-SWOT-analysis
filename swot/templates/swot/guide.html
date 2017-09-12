@@ -18,26 +18,40 @@
 <!-- page content -->
 <div style="float:left; margin-left: 66px; width: 740px">
 	<h1>Guide</h1>
+    <h2>Splash Page</h2>
+    <p>Use the ‘Create Simple SWOT Analysis’ button to create a simple version of the SWOT analysis. The simple version is shorter and quicker to complete.<br><center><img src="{% static 'img/splash_page_simple.png' %}"> </center></p>
+    <p>Use the ‘Create Advanced SWOT Analysis’ button to create an advanced version of the SWOT analysis. The advanced version is longer and offers more in depth analysis.<br><center><img src="{% static 'img/splash_page_advanced.png' %}"> </center></p>
+    <p>Use the ‘Load SWOT Analysis’ button to load a SWOT Analysis that has been saved to your account.<br><center><img src="{% static 'img/splash_page_load.png' %}"> </center></p>
+    <h2>SWOT Menu</h2>
+    <p>Use the ‘Save’ and ‘Load’ to save or load a SWOT Analysis to your account.<br><center><img src="{% static 'img/swot_menu_save_load.png' %}"> </center></p>
+    <p>Use the ‘Upload from JSON’ and the ‘Export to JSON’ to save or load a SWOT Analysis in the form of a JSON file on your computer.<br><center><img src="{% static 'img/swot_menu_json.png' %}"> </center></p>
+    <p>Use the ‘Export to PDF’ button to export your SWOT analysis to a report in the form of a PDF file.<br><center><img src="{% static 'img/swot_menu_pdf.png' %}"> </center></p>
+    <p>Use the ‘Share’ button to access your SWOT analysis’ Share ID. Another user can use the Share ID to access your SWOT analysis when they load one.<br><center><img src="{% static 'img/swot_menu_share.png' %}"> </center></p>
+    <h2>SWOT Tool</h2>
 	<p>Fill in the SWOT Analysis Form using the following fields: <br>
 	<center><img src="{% static 'img/swot_main.png' %}"> </center></p>
-	<p>Use these buttons to change view: <br>
+	<p>In an advanced SWOT analysis use these buttons to change view: <br>
 	<center><img src="{% static 'img/page_selection_button.png' %}"> </center></p>
 	<p>Use the following views to create a plan based off the completed SWOT Analysis:
 	<center><img src="{% static 'img/swot_plan_making_views.png' %}"> </center></p>
 	<p>Use the ‘X’ to delete something from the list:<br>
 	<center><img src="{% static 'img/swot_guide_remove.png' %}"> </center></p>
-	<p>Use the ‘Save’ button to save the current session to a file on disk:<br>
-	<center><img src="{% static 'img/swot_guide_save.png' %}"> </center></p>
-	<p>Use the ‘Load’ button to load a file from disk into the current session:<br>
-	<center><img src="{% static 'img/swot_guide_load.png' %}"> </center></p>
-	<p>Use the ‘Export’ button to create a new window with a print-friendly version of your lists:<br>
-	<center><img src="{% static 'img/swot_guide_export.png' %}"></center></p>
 </div>
 <!-- page content -->
 
 <!-- Page Menus -->
 <!-- <div style="float: left; margin-left: 66px; margin-bottom: 66px;"> -->
 	<!-- {% include "swot/online_steps.html" %} -->
+    <aside id='sidebar'>
+        <a href="{% static 'data/SWOT_Analysis_Guideline.pdf' %}" target="_blank">
+            <button class="alt"> Download Guide  <i class="fa fa-file-pdf-o" aria-hidden="true"></i></button>
+        </a>
+
+        <div></div>
+        <a href="{% url 'swot_accessappsplash' %}">
+            <button id="access_app_button"> Access to application <img src="{% static 'img/access-icon.png' %}" width="20"></button>
+        </a>
+    </aside>
 <!-- </div> -->
 <!-- Page Menus -->
 {% endblock %}

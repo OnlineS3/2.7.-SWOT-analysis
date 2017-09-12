@@ -80,7 +80,7 @@
 		</div>
 	</div>
 
-	<p style="clear:both; font-size: 16;" id="section-description">Use these fields to identify your strengths, weaknesses, opportunities, and threats.</p>
+	<p style="clear:both; font-size: 16px;" id="section-description">Use these fields to identify your strengths, weaknesses, opportunities, and threats.</p>
 
 	<div id="swot_div">
 		<div id="strengths_div">
@@ -292,7 +292,7 @@
 				<li id="loadbutton" action="{% url 'swot_loadfromdb' %}"onclick="getSwotcards()"><i class="fa fa-upload"></i> Load</li>
 				<li id="loadtables" onclick="createAndClickFile()" action="{% url 'bscapp_loadtables'%}"><i class="fa fa-upload"></i> Upload from JSON</li>
                 <li onclick="setSaveForm();"><i class="fa fa-download "></i> Export to JSON</li>
-				<li id="exportpdf" action="{% url 'swot_pdf' %}" onclick="printPDF();document.getElementById('pdf_form').submit();"><i class="fa fa-download"></i> Export</li>
+				<li id="exportpdf" action="{% url 'swot_pdf' %}" onclick="printPDF();document.getElementById('pdf_form').submit();"><i class="fa fa-file-pdf-o"></i> Export to PDF</li>
                 <li onclick="openShareModal()"><i class="fa fa-share-alt"></i> Share</li>
 				<li onclick="if(leavingPage()){window.location = '{% url 'swot_guide' %}'}"><i class="fa fa-question-circle-o"></i> Help</li>
 				<li onclick="if(leavingPage()){window.location = '{% url 'swot_index' %}'}"><i class="fa fa-info-circle"></i> About</li>
@@ -304,6 +304,27 @@
 	</div>
 
 	<!-- {% include "swot/online_steps.html" %} -->
+    <aside id='sidebar'>
+        <a href="{% static 'data/SWOT_Analysis_Guideline.pdf' %}" target="_blank">
+            <button class="alt"> Download Guide  <i class="fa fa-file-pdf-o" aria-hidden="true"></i></button>
+        </a>
+    </aside>
 </div>
 <!-- Page Menus -->
+
+<script>
+    $(document).ready(function() {
+        {% if not request.session.bscapp_profile.email %}
+            window.location = '{% url 'swot_accessappsplash' %}';
+        {% endif %}
+        {% if type %}
+            setSwotType('{{ type }}');
+        {% endif %}
+        {% if share_id %}
+            document.getElementById('share_id_input').value = "{{ share_id }}";
+            loadFromShareId();
+            document.getElementById('share_id_input').value = "";
+        {% endif %}
+    });
+</script>
 {% endblock %}

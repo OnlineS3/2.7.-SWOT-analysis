@@ -294,6 +294,11 @@ function generateJSON()
 		swotcard_name_json = swotcard_name_json + '"share_id": "' + document.getElementById("swotcard_name").getAttribute("share_id") + '", ';
 	}
 
+	if(document.getElementById("swotcard_name").hasAttribute("swot_type"))
+	{
+		swotcard_name_json = swotcard_name_json + '"swot_type": "' + document.getElementById("swotcard_name").getAttribute("swot_type") + '", ';
+	}
+
 	observations_json = '"observations":{';
 
 	strength_json = '"strengths":[';
@@ -476,9 +481,15 @@ function loadJson(text_json)
 	document.getElementById("swotcard_name").innerHTML = obj.swotcard_name;
 	document.getElementById("swotcard_name").setAttribute("share_id", obj.share_id);
 	document.getElementById("swotcard_edit").value = obj.swotcard_name;
+
 	if("share_id" in obj)
 	{
 		document.getElementById("share_id_in_modal").innerHTML = obj.share_id;
+	}
+
+	if("swot_type" in obj)
+	{
+		setSwotType(obj.swot_type);
 	}
 
 	console.log(Object.keys(obj));
@@ -696,6 +707,15 @@ $(document).ready(function() {
         redirectUri: 'http://li1088-54.members.linode.com:8082/swot/callback'
       });
     });
+    $('.register-btn').click(function(e) {
+      e.preventDefault();
+      auth.authorize({
+        audience: 'https://' + 'onlines3.eu.auth0.com' + '/userinfo',
+        scope: 'openid profile email',
+        responseType: 'code',
+        redirectUri: 'http://li1088-54.members.linode.com:8082/swot/callback'
+      });
+    });
 });
 
 /*
@@ -765,4 +785,23 @@ function addToShares()
 				console.log("error: " + error);
 			}
 	});
+}
+
+function setSplashLoadVal()
+{
+	select = document.getElementById("swotcard_select");
+	selected_option = select.options[select.selectedIndex].value;
+
+	if(select.options[select.selectedIndex].hasAttribute('share_id'))
+	{
+		document.getElementById('load_form_share').value = select.options[select.selectedIndex].getAttribute('share_id');
+		document.getElementById('load_form_name').parentNode.removeChild(document.getElementById('load_form_name'));
+    }
+    else
+	{
+		document.getElementById('load_form_name').value = select.options[select.selectedIndex].value;
+		document.getElementById('load_form_share').parentNode.removeChild(document.getElementById('load_form_share'));
+	}
+
+	document.getElementById('load_form').submit();
 }

@@ -16,11 +16,20 @@ def index(request):
 	return render(request, 'swot/index.html')
 
 def swotapp(request):
-	#context = {"type": request.GET["type"]}
+	context = {}
 	if 'type' in request.GET:
 		request.session['swot_type'] = request.GET['type']
-	return render(request, 'swot/access_app.html')
+		context['type'] = request.GET["type"]
+	if 'swotcard_name' in request.GET:
+		swotcard = Swotcard.objects.filter(swotcard_name=request.GET['swotcard_name'],
+										   user_email=request.session['swot_profile']['email']).first()
+		context['share_id'] = swotcard.share_id
+	elif 'swotcard_share_id' in request.GET:
+		context['share_id'] = request.GET['swotcard_share_id']
+	return render(request, 'swot/access_app.html', context=context)
 
+def swotsplash(request):
+	return render(request, 'swot/access_app_splash.html')
 
 def guide(request):
 	return render(request, 'swot/guide.html')
@@ -35,20 +44,22 @@ def login_view(request):
 def saveswot(request):
 	text_json = request.POST['text_json']
 	parsed_json = json.loads(text_json)
-	swotcard_name = parsed_json["swotcard_name"]
+	swotcard_name = parsed_json['swotcard_name']
+	swot_type = parsed_json['swot_type']
 	swotcard = None
 
 	if "share_id" in parsed_json:
-		swotcard = Swotcard.objects.filter(swotcard_name=swotcard_name, share_id=parsed_json["share_id"]).first()
+		swotcard = Swotcard.objects.filter(share_id=parsed_json["share_id"]).first()
 
 		if swotcard.user_email != request.session['swot_profile']['email'] and Shares.objects.filter(swotcard=swotcard, shared_with=request.session['swot_profile']['email']).count() == 0:
 			#the user does not own the swot and user has no rights in Shares table
 			return HttpResponse("You do not have correct permissions to edit this SWOT Analysis", status="403")
 	else:# Swotcard.objects.filter(swotcard_name=swotcard_name, user_email=request.session['swot_profile']['email']).count() == 0:
+		#create new swot
 		share_id_instance = hashlib.sha1(swotcard_name+request.session['swot_profile']['email']).hexdigest()
 		print share_id_instance
 		parsed_json["share_id"] = share_id_instance;
-		swotcard_instance = Swotcard.objects.create(user_email=request.session['swot_profile']['email'], swotcard_name=swotcard_name, share_id=share_id_instance, share_permissions=0)
+		swotcard_instance = Swotcard.objects.create(user_email=request.session['swot_profile']['email'], swotcard_name=swotcard_name, share_id=share_id_instance, share_permissions=0, swot_type=swot_type)
 		swotcard_instance.save()
 	
 	swotcard = Swotcard.objects.filter(swotcard_name=swotcard_name).first()
@@ -124,17 +135,20 @@ def loadswot(request):
 	swotcard = ""
 	swotcard_name = ""
 	share_id = ""
+	swot_type = ""
 	if 'swotcard_name' in request.POST:
 		swotcard_name = request.POST["swotcard_name"]
 		if Swotcard.objects.filter(swotcard_name=swotcard_name,user_email=request.session['swot_profile']['email']).count() > 0:
 			swotcard = Swotcard.objects.filter(swotcard_name=swotcard_name, user_email=request.session['swot_profile']['email']).first()
 			share_id = swotcard.share_id
+			swot_type = swotcard.swot_type
 		else:
 			return HttpResponse('You do not own a SWT Analysis with that name' + str(Swotcard.objects.filter(swotcard_name=swotcard_name,user_email=request.session['swot_profile']['email']).count()), status="404")
 	elif 'swotcard_share_id' in request.POST:
 		swotcard = Swotcard.objects.filter(share_id=request.POST["swotcard_share_id"]).first()
 		share_id = request.POST["swotcard_share_id"]
 		swotcard_name = swotcard.swotcard_name
+		swot_type = swotcard.swot_type
 
 	strengths = Swotrow.objects.filter(swotcard=swotcard, quadrant=0)
 	weaknesses = Swotrow.objects.filter(swotcard=swotcard, quadrant=1)
@@ -204,7 +218,7 @@ def loadswot(request):
 	observations = '"observations":{' + strengths_json + weaknesses_json + opportunities_json + threats_json + '}'
 	analysis = '"analysis": {' + str_opp_json + str_thr_json + wea_opp_json + wea_thr_json  + '}'
 	swotcard_share_id = '"share_id": "' + share_id + '"'
-	text_json = '{"swotcard_name":"' + swotcard_name +'", ' + observations +', ' + analysis +', ' + swotcard_share_id + ' }'
+	text_json = '{"swotcard_name":"' + swotcard_name +'", "swot_type":"' + swot_type + '",' + observations +', ' + analysis +', ' + swotcard_share_id + ' }'
 
 	return HttpResponse(text_json)
 

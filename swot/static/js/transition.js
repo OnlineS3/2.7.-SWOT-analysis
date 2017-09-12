@@ -118,3 +118,21 @@ function reset_layout()
 	document.getElementById("wea_opp_div").style.display = "none";
 	document.getElementById("wea_thr_div").style.display = "none";
 }
+
+function setSwotType(type)
+{
+	if(type == "simple")
+	{
+		document.getElementById("swot_button").style.display = "none";
+		document.getElementById("str_opp_button").style.display = "none";
+		document.getElementById("str_thr_button").style.display = "none";
+		document.getElementById("wea_opp_button").style.display = "none";
+		document.getElementById("wea_thr_button").style.display = "none";
+
+		document.getElementById("swotcard_name").setAttribute("swot_type", "simple");
+	}
+	else if(type == "advanced")
+	{
+		document.getElementById("swotcard_name").setAttribute("swot_type", "advanced");
+	}
+}

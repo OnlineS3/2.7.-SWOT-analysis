@@ -6,6 +6,7 @@ from django.db import models
 class Swotcard(models.Model):
 	user_email = models.CharField(max_length=100)
 	swotcard_name = models.CharField(max_length=100)
+	swot_type = models.CharField(max_length=10)
 	share_id = models.CharField(max_length=40)
 	share_permissions = models.IntegerField()
 	#0 = private

@@ -18,17 +18,69 @@
 {% block content %}
     <div style="float:left; margin-left: 66px; width:752px;">
 	    <h1 id="section-title">SWOT Analysis</h1>
-        <form method="get" action="{% url 'swot_swotapp' %}">
+        <div id="create_simple_button" {% if not request.session.bscapp_profile.email %} class="splash-button-disabled" title="Please log in to create a SWOT analysis."{% else %} class="splash-button" onclick="document.getElementById('new_simple_form').submit();" {% endif %} style="margin-left: 66px;">
+			<div name="icons" style="margin:5px">
+				<i class="fa fa-cog" aria-hidden="true"></i>
+			</div>
+			<div name="text" style="margin:5px;margin-top:0px;">
+				<span>Create Simple SWOT Analysis</span>
+			</div>
+		</div>
+
+        <form id="new_simple_form" method="get" action="{% url 'swot_access' %}" style="display: none;">
             <input type="hidden" name="type" value="simple">
-            <input type="submit" value="Create Simple">
         </form>
 
-        <form method="get" action="{% url 'swot_swotapp' %}">
+        <div id="create_advanced_button" {% if not request.session.bscapp_profile.email %} class="splash-button-disabled" title="Please log in to create a SWOT analysis."{% else %}  class="splash-button" onclick="document.getElementById('new_advanced_form').submit();" {% endif %} style="margin-left: 66px;">
+			<div name="icons" style="margin:5px">
+				<i class="fa fa-cogs" aria-hidden="true"></i>
+			</div>
+			<div name="text" style="margin:5px;margin-top:0px;">
+				<span>Create Advanced SWOT Analysis</span>
+			</div>
+		</div>
+
+        <form id="new_advanced_form" method="get" action="{% url 'swot_access' %}" style="display: none;">
             <input type="hidden" name="type" value="advanced">
-            <input type="submit" value="Advanced Simple">
         </form>
 
+        <div id="load_splash_button" {% if not request.session.bscapp_profile.email %} class="splash-button-disabled" title="Please log in to load."{% else %} class="splash-button" onclick="getSwotcards()" {% endif %} style="margin-left: 66px;" onclick="getSwotcards()">
+			<div name="icons" style="margin:5px">
+				<i class="fa fa-upload" aria-hidden="true"></i>
+			</div>
+			<div name="text" style="margin:5px;margin-top:0px;">
+				<span>Load SWOT Analysis</span>
+			</div>
+		</div>
 
-        <button>Load</button>
+        <form id="load_form" method="get" action="{% url 'swot_access' %}" style="display: none;">
+            <input id="load_form_name" type="hidden" name="swotcard_name" value="">
+            <input id="load_form_share" type="hidden" name="swotcard_share_id" value="">
+        </form>
     </div>
+
+    <div id="swotcard_load_modal" class="modal" style="display: none;">
+        <span class="close" onclick="hideModal('swotcard_load_modal')">&times</span>
+        <h2>Which SWOT Analysis Form should be loaded?</h2>
+
+        <select id="swotcard_select">
+        </select>
+        <button onclick="setSplashLoadVal()">Load</button>
+
+        <h2>Load from Share ID</h2>
+        <input id="share_id_input" type="text">
+        <button onclick="addToShares()">Add to Your List</button>
+    </div>
+    <button id="getswotcards" action="{% url 'swot_getswotcards'%}" style="display:none;"></button>
+
+    <!-- Page Menus -->
+    <!-- <div style="float: left; margin-left: 66px; margin-bottom: 66px;"> -->
+        <!-- {% include "swot/online_steps.html" %} -->
+        <aside id='sidebar'>
+            <a href="{% static 'data/SWOT_Analysis_Guideline.pdf' %}" target="_blank">
+                <button class="alt"> Download Guide  <i class="fa fa-file-pdf-o" aria-hidden="true"></i></button>
+            </a>
+        </aside>
+    <!-- </div> -->
+    <!-- Page Menus -->
 {% endblock %}

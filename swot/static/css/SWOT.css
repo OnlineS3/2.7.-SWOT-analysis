@@ -191,3 +191,29 @@ div.large_scroll {
 	font-size: 13px;
 	font-family: verdana,sans-serif
 }
+
+.splash-button {
+	background-color: #0099CC;
+	width: 100px;
+	height: 100px;
+	margin: 15px;
+	float: left;
+	font-size: 13px;
+	font-family: verdana,sans-serif
+}
+
+.splash-button-disabled {
+	background-color: grey;
+	width: 100px;
+	height: 100px;
+	margin: 15px;
+	float: left;
+	font-size: 13px;
+	font-family: verdana,sans-serif
+}
+
+.splash-button:hover{
+	color:white;
+	background-color: #1372aa;
+	cursor: pointer;
+}
