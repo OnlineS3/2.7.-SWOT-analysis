@@ -232,10 +232,18 @@ function printPDF()
 	document.getElementById("opportunities_div").style.display = "inline";
 	document.getElementById("weaknesses_div").style.display = "inline";
 	document.getElementById("threats_div").style.display = "inline";
-	document.getElementById("str_opp_div").style.display = "inline";
-	document.getElementById("str_thr_div").style.display = "inline";
-	document.getElementById("wea_opp_div").style.display = "inline";
-	document.getElementById("wea_thr_div").style.display = "inline";
+	if(document.getElementById('swotcard_name').getAttribute('swot_type') == 'advanced') {
+        document.getElementById("str_opp_div").style.display = "inline";
+        document.getElementById("str_thr_div").style.display = "inline";
+        document.getElementById("wea_opp_div").style.display = "inline";
+        document.getElementById("wea_thr_div").style.display = "inline";
+    }
+    else {
+		document.getElementById("str_opp_div").style.display = "none";
+        document.getElementById("str_thr_div").style.display = "none";
+        document.getElementById("wea_opp_div").style.display = "none";
+        document.getElementById("wea_thr_div").style.display = "none";
+	}
 
 	var divContents = document.getElementById("swot_div").outerHTML;
 

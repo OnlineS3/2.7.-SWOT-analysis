@@ -314,7 +314,7 @@
 
 <script>
     $(document).ready(function() {
-        {% if not request.session.bscapp_profile.email %}
+        {% if not request.session.swot_profile.email %}
             window.location = '{% url 'swot_accessappsplash' %}';
         {% endif %}
         {% if type %}
