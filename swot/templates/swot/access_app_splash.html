@@ -16,7 +16,7 @@
 {% endblock %}
 
 {% block content %}
-    <div style="float:left; margin-left: 66px; width:752px;">
+    <div style="float:left; margin-left: 66px; width:752px; margin-bottom:66px;">
 	    <h1 id="section-title">SWOT Analysis</h1>
         <div id="create_simple_button" {% if not request.session.swot_profile.email %} class="splash-button-disabled" title="Please log in to create a SWOT analysis."{% else %} class="splash-button" onclick="document.getElementById('new_simple_form').submit();" {% endif %} style="margin-left: 66px;">
 			<div name="icons" style="margin:5px">

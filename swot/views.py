@@ -53,14 +53,17 @@ def saveswot(request):
 
 		if swotcard.user_email != request.session['swot_profile']['email'] and Shares.objects.filter(swotcard=swotcard, shared_with=request.session['swot_profile']['email']).count() == 0:
 			#the user does not own the swot and user has no rights in Shares table
-			return HttpResponse("You do not have correct permissions to edit this SWOT Analysis", status="403")
+			return HttpResponse("You do not have correct permissions to edit this SWOT Analysis", status=403)
 	else:# Swotcard.objects.filter(swotcard_name=swotcard_name, user_email=request.session['swot_profile']['email']).count() == 0:
-		#create new swot
-		share_id_instance = hashlib.sha1(swotcard_name+request.session['swot_profile']['email']).hexdigest()
-		print share_id_instance
-		parsed_json["share_id"] = share_id_instance;
-		swotcard_instance = Swotcard.objects.create(user_email=request.session['swot_profile']['email'], swotcard_name=swotcard_name, share_id=share_id_instance, share_permissions=0, swot_type=swot_type)
-		swotcard_instance.save()
+		if Swotcard.objects.filter(user_email=request.session['swot_profile']['email'], swotcard_name=swotcard_name).count() != 0:
+			return HttpResponse("You already own a SWOT Analysis with that name. Please choose a different name.", status=403)
+		else:
+			#create new swot
+			share_id_instance = hashlib.sha1(swotcard_name+request.session['swot_profile']['email']).hexdigest()
+			print share_id_instance
+			parsed_json["share_id"] = share_id_instance;
+			swotcard_instance = Swotcard.objects.create(user_email=request.session['swot_profile']['email'], swotcard_name=swotcard_name, share_id=share_id_instance, share_permissions=0, swot_type=swot_type)
+			swotcard_instance.save()
 	
 	swotcard = Swotcard.objects.filter(swotcard_name=swotcard_name).first()
 
@@ -143,7 +146,7 @@ def loadswot(request):
 			share_id = swotcard.share_id
 			swot_type = swotcard.swot_type
 		else:
-			return HttpResponse('You do not own a SWT Analysis with that name' + str(Swotcard.objects.filter(swotcard_name=swotcard_name,user_email=request.session['swot_profile']['email']).count()), status="404")
+			return HttpResponse('You do not own a SWT Analysis with that name' + str(Swotcard.objects.filter(swotcard_name=swotcard_name,user_email=request.session['swot_profile']['email']).count()), status=404)
 	elif 'swotcard_share_id' in request.POST:
 		swotcard = Swotcard.objects.filter(share_id=request.POST["swotcard_share_id"]).first()
 		share_id = request.POST["swotcard_share_id"]

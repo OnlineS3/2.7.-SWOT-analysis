@@ -106,10 +106,7 @@ function reset_layout()
 	document.getElementById("threats_div").style.marginBottom = "40px";
 
 	var list2 = document.getElementsByClassName("div-button-active");
-	console.log(list2.length);
-	console.log(list2[0].id);
 	for(i = list2.length-1; i >= 0; i--){
-		console.log(list2[i].id)
 		list2[i].className = "div-button-inactive";
 	}
 

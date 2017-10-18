@@ -1,7 +1,6 @@
 #strengths_div {
 	border: 1px solid #007E33;
 	width: 300px;
-	/*height: 300px;*/
 	overflow: auto;
 	position: relative;
 	float: left;
@@ -11,7 +10,6 @@
 #weaknesses_div {
 	border: 1px solid #CC0000;
 	width: 300px;
-	/*height: 411px;*/
 	position: relative;
 	float:left;
 	margin: 5px;
@@ -21,19 +19,16 @@
 #opportunities_div {
 	border: 1px solid #0099CC;
 	width: 300px;
-	/*height: 411px;*/
 	position: relative;
 	float:left;
 	clear: left;
 	margin: 5px;
-	/*margin-bottom:40px;*/
 	display:block;
 }
 
 #threats_div {
 	border: 1px solid #FF8800;
 	width: 300px;
-	/*height: 411px;*/
 	position: relative;
 	float:left;
 	margin: 5px;
@@ -41,9 +36,10 @@
 }
 
 #str_opp_div {
-	border: 1px solid #FF8800;
+	border: 1px solid #007E33;
 	width: 610px;
 	/*height: 300px;*/
+	overflow: auto;
 	position: relative;
 	float:left;
 	margin: 5px;
@@ -51,7 +47,7 @@
 }
 
 #str_thr_div {
-	border: 1px solid #FF8800;
+	border: 1px solid #007E33;
 	width: 610px;
 	/*height: 300px;*/
 	position: relative;
@@ -61,7 +57,7 @@
 }
 
 #wea_opp_div {
-	border: 1px solid #FF8800;
+	border: 1px solid #007E33;
 	width: 610px;
 	/*height: 300px;*/
 	position: relative;
@@ -71,7 +67,7 @@
 }
 
 #wea_thr_div {
-	border: 1px solid #FF8800;
+	border: 1px solid #007E33;
 	width: 610px;
 	/*height: 300px;*/
 	position: relative;
@@ -90,7 +86,7 @@ div.add_plan {
 
 #swot_div {
 	/*width: 598px;*/
-	height: 1000px;
+	height: 1500px;
 	/*border: 1px solid black;*/
 	/*overflow:auto;*/
 	display:flex;
@@ -110,12 +106,3 @@ ul li {
 	padding: 1px 0px;
 }
 
-div.large_scroll {
-	position:absolute;
-	width: 575px;
-	height: 223px;
-	left: 5px;
-	margin-top: 5px;
-	word-wrap: break-word;
-	overflow-y: auto;
-}

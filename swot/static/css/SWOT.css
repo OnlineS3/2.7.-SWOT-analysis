@@ -194,6 +194,7 @@ div.large_scroll {
 
 .splash-button {
 	background-color: #0099CC;
+	color:white;
 	width: 100px;
 	height: 100px;
 	margin: 15px;
@@ -203,7 +204,8 @@ div.large_scroll {
 }
 
 .splash-button-disabled {
-	background-color: grey;
+	background-color: #cccccc;
+	color: #6d6d6d;
 	width: 100px;
 	height: 100px;
 	margin: 15px;
@@ -213,7 +215,6 @@ div.large_scroll {
 }
 
 .splash-button:hover{
-	color:white;
 	background-color: #1372aa;
 	cursor: pointer;
 }

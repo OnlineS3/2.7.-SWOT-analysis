@@ -228,6 +228,12 @@ creates a seperate window with a more print friendly layout.
 */
 function printPDF()
 {
+	var list2 = document.getElementsByClassName("div-button-active")[0];
+	console.log("active before: " + list2);
+	reset_layout();
+	swot_layout();
+	console.log("active after: " + list2);
+
 	document.getElementById("strengths_div").style.display = "inline";
 	document.getElementById("opportunities_div").style.display = "inline";
 	document.getElementById("weaknesses_div").style.display = "inline";
@@ -253,25 +259,23 @@ function printPDF()
 	printWindow += '<h1>'+ document.getElementById('swotcard_name').innerHTML +'</h1>';
 	printWindow += divContents;
 	printWindow += '</body></html>';
-	console.log(printWindow);
 
-	var list2 = document.getElementsByClassName("div-button-active");
-	if(list2[0].id == "swot_button")
+	if(list2.id == "swot_button")
 	{
 		reset_layout();
 		swot_layout();
 	}
-	else if(list2[0].id == "str_opp_button")
+	else if(list2.id == "str_opp_button")
 	{
 		reset_layout();
 		str_opp_layout();
 	}
-	else if(list2[0].id == "str_thr_button")
+	else if(list2.id == "str_thr_button")
 	{
 		reset_layout();
 		str_thr_layout();
 	}
-	else if(list2[0].id == "wea_opp_button")
+	else if(list2.id == "wea_opp_button")
 	{
 		reset_layout();
 		wea_opp_layout();
@@ -410,6 +414,7 @@ function saveToDB()
 				console.log("xhr: " + xhr.responseText);
 				console.log("status: " + status);
 				console.log("error: " + error);
+				alert(xhr.responseText)
 			}
 	});
 }
