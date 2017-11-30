@@ -37,6 +37,9 @@ def guide(request):
 def related(request):
 	return render(request, 'swot/related_documents.html')
 
+def demo(request):
+	return render(request,'swot/demo.html')
+
 def login_view(request):
 	request.session['swot_profile'] = json.loads('{"nickname": "' + request.POST['username'] + '"}')
 	return redirect('swot_swotapp')

@@ -17,4 +17,5 @@ urlpatterns = [
 	url(r'^access$', views.swotapp, name='swot_access'),
 	url(r'^accessappsplash$', views.swotsplash, name='swot_accessappsplash'),
 	url(r'^addtoshares$', views.add_swot_to_shares, name='swot_addtoshares'),
+	url(r'^demo', views.demo, name='swot_demo'),
 ]

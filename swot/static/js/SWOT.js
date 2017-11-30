@@ -705,10 +705,122 @@ function exportPdf()
 }
 
 $(document).ready(function() {
-  var auth = new auth0.WebAuth({
-    domain: 'onlines3.eu.auth0.com',
-    clientID: 'UI4IXwkCYlZjmVqmdTMSI5yRzIEWV9l6'
-   });
+	var auth = new auth0.WebAuth({
+		domain: 'onlines3.eu.auth0.com',
+		clientID: 'UI4IXwkCYlZjmVqmdTMSI5yRzIEWV9l6'
+	});
+
+	var tour = new Tour({
+		backdrop:"true",
+		onEnd: function (tour) {
+			window.location = document.getElementById("tool").getAttribute("href");
+			if(document.getElementById("visionsession_list"))
+			{
+				getSessions();
+			}
+		},
+		onStart: function(tour) {
+
+		},
+		steps: [
+			{
+				element: "#userbtns",
+				title: "Sign in",
+				content: "Sign in or Sign up to gain full access to the app.",
+				path: "/swot/demo"
+			},
+			{
+				element: "#swotcard_name",
+				title: "SWOT Analysis Name",
+				content: "It is possible to edit this name using the pencil icon to its right.",
+			},
+			{
+				element: "#perspectives_div",
+				title: "Perspective Buttons",
+				content: "Uses these buttons to switch perspectives."
+			},
+			{
+				element: "#swot_button",
+				title: "Main SWOT Perspective",
+				content: "In a simple and advanced SWOT analysis, this perspective allows the user to input the basic requirements for a SWOT analysis."
+			},
+			{
+				element: "#str_opp_button",
+				title: "Strength and Opportunities Analysis",
+				content: "This perspective is only available in advanced SWOT Analysis. Use this perspective to determine how you will use your Strengths to take advantage of your Opportunities."
+			},
+			{
+				element: "#str_thr_button",
+				title: "Strength and Threat Analysis",
+				content: "This perspective is only available in advanced SWOT Analysis. Use this perspective to determine how you will use your Strengths to reduce the impact of your Threats."
+			},
+			{
+				element: "#wea_opp_button",
+				title: "Weakness and Opportunities Analysis",
+				content: "This perspective is only available in advanced SWOT Analysis. Use this perspective to determine how you will overcome Weaknesses that stop you from taking advantage of your Opportunities."
+			},
+			{
+				element: "#wea_thr_button",
+				title: "Weakness and Threat Analysis",
+				content: "This perspective is only available in advanced SWOT Analysis. Use this perspective to determine how you can address the Weaknesses that enable your Threats."
+			},
+			{
+				element: "#swot_div",
+				title: "Weakness and Threat Analysis",
+				content: "This perspective is only available in advanced SWOT Analysis. Use this perspective to determine how you can address the Weaknesses that enable your Threats."
+			},
+			{
+				element: "#strengths_div",
+				title: "Strengths",
+				content: "These are internal characteristics (characteristics of you, your region, or your business) that give you an advantage over others."
+			},
+			{
+				element: "#weaknesses_div",
+				title: "Weaknesses",
+				content: "These are internal characteristics (characteristics of you, your region, or your business) that give you disadvantage to others."
+			},
+			{
+				element: "#opportunities_div",
+				title: "Opportunities",
+				content: ": These are external characteristics (characteristics of the environment, market, country, field of research, etc.) that your region could exploit to its advantage."
+			},
+			{
+				element: "#threats_div",
+				title: "Threats",
+				content: "These are external characteristics (characteristics of the environment, market, country, field of research, etc.) that may negatively impact you.",
+				onNext: function(){
+					document.getElementById('strengths_help_dropdown').classList.toggle('show');
+				}
+			},
+			{
+				element: "#strengths_dropdown",
+				title: "Questions to Consider",
+				content: "If you are struggling to fill out the SWOT Analysis, try considering some of these questions.",
+				placement:'left',
+				onNext: function(){
+					document.getElementById('strengths_help_dropdown').classList.toggle('show');
+				}
+			},
+			{
+				element: "#sidemenu_div",
+				title: "SWOT Analysis Menu",
+				content: "This menu allows you to save, load, export, and import your balanced scorecard via various methods.",
+				onPrev: function(){
+					document.getElementById('strengths_help_dropdown').classList.toggle('show');
+				}
+			}
+		]
+	});
+	tour.init();
+	tour.start();
+
+	if(tour.ended())
+	{
+		document.getElementById("scorecard_name").innerHTML = "Scorecard Name...";
+		document.getElementById("scorecard_edit").innerHTML = "Scorecard Name...";
+		document.getElementById("scorecard_name").removeAttribute("share_id");
+		clearTables();
+	}
 
 
     $('.login-btn').click(function(e) {

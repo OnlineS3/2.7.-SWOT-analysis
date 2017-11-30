@@ -74,7 +74,7 @@
 			</div>
 
 			{% if request.session.swot_profile.email %}
-                <div class='user-btns'>
+                <div id='userbtns' class='user-btns'>
                     <span style="color:white;">{{ request.session.swot_profile.email }}</span>
                     <button class='logout-btn' onclick="document.getElementById('logout-form').submit();"> Sign out </button>
                 </div>
@@ -82,7 +82,7 @@
                     {% csrf_token %}
                 </form>
             {% else %}
-                <div class='user-btns'>
+                <div id='userbtns' class='user-btns'>
                     <button class='login-btn'> Sign in </button>
                     <button class='register-btn'> Sign up </button>
                 </div>
