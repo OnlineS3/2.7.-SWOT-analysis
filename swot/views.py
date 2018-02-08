@@ -137,6 +137,23 @@ def saveswot(request):
 	#return redirect('index')
 	return HttpResponse(json.dumps(parsed_json))
 
+def deleteswot(request):
+	text_json = request.POST['text_json']
+	parsed_json = json.loads(text_json)
+	swotcard = None
+
+	if "share_id" in parsed_json:
+		# save existing
+		swotcard = Swotcard.objects.filter(share_id=parsed_json["share_id"]).first()
+		if swotcard.user_email == request.session['swot_profile']['email']:
+			swotcard.delete()
+		else:
+			return HttpResponse("You do not own this SWOT Analysis", status=403)
+	else:
+		return HttpResponse("Error deleting SWOT Analysis", status=404)
+
+	return HttpResponse("Success", status=200)
+
 def loadswot(request):
 	swotcard = ""
 	swotcard_name = ""

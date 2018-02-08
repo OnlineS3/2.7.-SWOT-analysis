@@ -406,9 +406,31 @@ function saveToDB()
 				var obj = JSON.parse(result);
 				if("share_id" in obj) {
                     document.getElementById("share_id_in_modal").innerHTML = obj.share_id;
+                    document.getElementById("swotcard_name").setAttribute("share_id", obj.share_id);
+                    checkDeleteCss();
                 }
 				console.log("success: " + result);
 				alert("Scorecard succesfully saved.")
+			},
+			error: function(xhr, status, error){
+				console.log("xhr: " + xhr.responseText);
+				console.log("status: " + status);
+				console.log("error: " + error);
+				alert(xhr.responseText)
+			}
+	});
+}
+
+function deleteFromDB()
+{
+	$.ajax({url: document.getElementById("deletebutton").getAttribute("action"),
+			type: "POST",
+			data: {
+				text_json: generateJSON()
+			},
+			success: function(result){
+				console.log("success: " + result);
+				alert("Scorecard succesfully deleted.")
 			},
 			error: function(xhr, status, error){
 				console.log("xhr: " + xhr.responseText);
@@ -498,6 +520,7 @@ function loadJson(text_json)
 	if("share_id" in obj)
 	{
 		document.getElementById("share_id_in_modal").innerHTML = obj.share_id;
+		checkDeleteCss();
 	}
 
 	if("swot_type" in obj)
@@ -729,6 +752,8 @@ $(document).ready(function() {
       });
     });
 
+    checkDeleteCss();
+
 	var tour = new Tour({
 		backdrop:"true",
 		onEnd: function (tour) {
@@ -891,6 +916,11 @@ function openShareModal()
 	document.getElementById("swotcard_share_modal").style.display = "block";
 }
 
+function confirmDelete()
+{
+	document.getElementById("confirm_delete_modal").style.display = "block";
+}
+
 function addToShares()
 {
 	$.ajax({url: document.getElementById("addtoshares").getAttribute("action"),
@@ -928,4 +958,19 @@ function setSplashLoadVal()
 	}
 
 	document.getElementById('load_form').submit();
+}
+
+function checkDeleteCss()
+{
+	if(!document.getElementById("swotcard_name").hasAttribute("share_id"))
+	{
+		document.getElementById("deletebutton").style = "background:grey;cursor:default;"
+		document.getElementById("deletebutton").title = "Please load a saved scorecard to delete it"
+		document.getElementById("deletebutton").setAttribute("onclick", "");
+	}
+	else
+	{
+		document.getElementById("deletebutton").style = "cursor:pointer;"
+		document.getElementById("deletebutton").setAttribute("onclick", "confirmDelete()");
+	}
 }

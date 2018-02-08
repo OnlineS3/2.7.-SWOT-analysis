@@ -8,6 +8,7 @@ urlpatterns = [
 	url(r'^loginview/$', views.login_view, name='swot_loginview'),
 	url(r'^logoutview/$', views.logout, name='swot_logoutview'),
 	url(r'^saveswot/$', views.saveswot, name='swot_savetodb'),
+	url(r'^deleteswot/$', views.deleteswot, name='swot_deletefromdb'),
 	url(r'^loadswot/$', views.loadswot, name='swot_loadfromdb'),
 	url(r'^guide/$', views.guide, name='swot_guide'),
 	url(r'^related/$', views.related, name='swot_related'),
