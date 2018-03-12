@@ -2,7 +2,6 @@ function str_opp_layout()
 {
 	document.getElementById("weaknesses_div").style.display = "none";
 	document.getElementById("threats_div").style.display = "none";
-	document.getElementById("suggestions_div").style.display = "none";
 
 	document.getElementById("section-description").innerHTML = "How can you use these Strengths to take advantage of these Opportunities?";
 
@@ -24,7 +23,6 @@ function str_thr_layout()
 {
 	document.getElementById("weaknesses_div").style.display = "none";
 	document.getElementById("opportunities_div").style.display = "none";
-	document.getElementById("suggestions_div").style.display = "none";
 
 	document.getElementById("section-description").innerHTML = "How can you use these Strengths to reduce the impact of these Threats?";
 
@@ -44,7 +42,6 @@ function wea_opp_layout()
 {
 	document.getElementById("strengths_div").style.display = "none";
 	document.getElementById("threats_div").style.display = "none";
-	document.getElementById("suggestions_div").style.display = "none";
 
 	document.getElementById("section-description").innerHTML = "How can you overcome these Weaknesses that stop you from taking advantage of these Opportunities?";
 
@@ -66,7 +63,6 @@ function wea_thr_layout()
 {
 	document.getElementById("strengths_div").style.display = "none";
 	document.getElementById("opportunities_div").style.display = "none";
-	document.getElementById("suggestions_div").style.display = "none";
 
 	document.getElementById("section-description").innerHTML = "How can you address the Weaknesses that will enable these Threats?";
 
@@ -93,7 +89,6 @@ function reset_layout()
 	document.getElementById("opportunities_div").style.display = "inline";
 	document.getElementById("weaknesses_div").style.display = "inline";
 	document.getElementById("threats_div").style.display = "inline";
-	document.getElementById("suggestions_div").style.display = "block";
 
 	var list = document.getElementsByClassName("add_value");
 	for(i = 0; i < list.length; i++){
@@ -130,6 +125,12 @@ function setSwotType(type)
 	}
 	else if(type == "advanced")
 	{
+		document.getElementById("swot_button").style.display = "block";
+		document.getElementById("str_opp_button").style.display = "block";
+		document.getElementById("str_thr_button").style.display = "block";
+		document.getElementById("wea_opp_button").style.display = "block";
+		document.getElementById("wea_thr_button").style.display = "block";
+
 		document.getElementById("swotcard_name").setAttribute("swot_type", "advanced");
 	}
 }

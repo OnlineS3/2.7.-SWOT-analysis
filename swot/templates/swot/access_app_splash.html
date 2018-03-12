@@ -6,7 +6,7 @@
     <link rel="stylesheet" type="text/css" href="{% static 'css/SWOT.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/appmenu.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/roadmap.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'css/modal.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/swotmodal.css' %}">
 
     <!-- JQuery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
@@ -57,6 +57,18 @@
             <input type="hidden" name="type" value="advanced">
         </form>
 
+        <div id="wizard_splash_button" {% if not request.session.swot_profile.email %} class="splash-button-disabled" title="Please log in to access wizard."{% else %} class="splash-button" onclick="document.getElementById('wizard_form').submit();" {% endif %} style="margin-left: 66px;">
+			<div name="icons" style="margin:5px">
+				<i class="fa fa-magic" aria-hidden="true"></i>
+			</div>
+			<div name="text" style="margin:5px;margin-top:0px;">
+				<span>Create from Wizard</span>
+			</div>
+		</div>
+
+        <form id="wizard_form" method="get" action="{% url 'swot_wizard' %}" style="display: none;">
+        </form>
+
         <div id="load_splash_button" {% if not request.session.swot_profile.email %} class="splash-button-disabled" title="Please log in to load."{% else %} class="splash-button" onclick="getSwotcards()" {% endif %} style="margin-left: 66px;">
 			<div name="icons" style="margin:5px">
 				<i class="fa fa-upload" aria-hidden="true"></i>
@@ -73,20 +85,36 @@
     </div>
 
     <div id="swotcard_load_modal" class="modal" style="display: none;">
-        <span class="close" onclick="hideModal('swotcard_load_modal')">&times</span>
-        <h2>Which SWOT Analysis Form should be loaded?</h2>
+        <div class="modalheader">
+            <div style="float:left";>
+                <p>Which SWOT Analysis Form should be loaded?</p>
+            </div>
+            <div style="float:right";>
+                <span class="close" onclick="hideModal('swotcard_load_modal')">&times</span>
+            </div>
+        </div>
 
-        <select id="swotcard_select">
-        </select>
-        <button onclick="setSplashLoadVal()">Load</button>
+        <div class="modalcontent">
+            <select id="swotcard_select"></select>
+            <button onclick="setSplashLoadVal()">Load</button>
+        </div>
 
-        <h2>Load from Share ID</h2>
-        <input id="share_id_input" type="text">
-        <button onclick="addToShares()">Add to Your List</button>
+        <div class="modalheader">
+            <p>Load from Share ID</p>
+        </div>
+
+        <div class="modalcontent">
+            <input id="share_id_input" type="text">
+            <button onclick="addToShares()">Add to Your List</button>
+        </div>
     </div>
     <button id="getswotcards" action="{% url 'swot_getswotcards'%}" style="display:none;"></button>
 
     <form id="addtoshares" method="post" action="{% url 'swot_addtoshares' %}" style="display: none;">
+    </form>
+
+    <form type="post" action="{% url 'swot_loginview' %}">
+        <button type="submit">Login</button>
     </form>
 
     <!-- Page Menus -->

@@ -404,19 +404,19 @@ function saveToDB()
 			},
 			success: function(result){
 				var obj = JSON.parse(result);
-				if("share_id" in obj) {
+				if("share_id" in obj && document.getElementById("share_id_in_modal") != null && document.getElementById("swotcard_name") != null) {
                     document.getElementById("share_id_in_modal").innerHTML = obj.share_id;
                     document.getElementById("swotcard_name").setAttribute("share_id", obj.share_id);
                     checkDeleteCss();
                 }
 				console.log("success: " + result);
-				alert("Scorecard succesfully saved.")
+				createModalNotification("Notification", "Scorecard succesfully saved.")
 			},
 			error: function(xhr, status, error){
 				console.log("xhr: " + xhr.responseText);
 				console.log("status: " + status);
 				console.log("error: " + error);
-				alert(xhr.responseText)
+				createModalNotification("Notification", "An error occurred while trying to save the SWOT Analysis. " + xhr.responseText);
 			}
 	});
 }
@@ -430,13 +430,13 @@ function deleteFromDB()
 			},
 			success: function(result){
 				console.log("success: " + result);
-				alert("Scorecard succesfully deleted.")
+				createModalNotification("Notification", "Scorecard succesfully deleted.")
 			},
 			error: function(xhr, status, error){
 				console.log("xhr: " + xhr.responseText);
 				console.log("status: " + status);
 				console.log("error: " + error);
-				alert(xhr.responseText)
+				createModalNotification("Notification", "An error occurred while trying to delete the SWOT Analysis. " + xhr.responseText);
 			}
 	});
 }
@@ -863,7 +863,7 @@ $(document).ready(function() {
 		document.getElementById("scorecard_name").innerHTML = "Scorecard Name...";
 		document.getElementById("scorecard_edit").innerHTML = "Scorecard Name...";
 		document.getElementById("scorecard_name").removeAttribute("share_id");
-		clearTables();
+		//clearTables();
 	}
 });
 
@@ -930,13 +930,14 @@ function addToShares()
 			},
 			success: function(result){
 				getSwotcards();
-				alert("Successfully added to your list")
+				createModalNotification("Notification", "Successfully added to your list")
 				console.log("success: " + result);
 			},
 			error: function(xhr, status, error){
 				console.log("xhr: " + xhr.responseText);
 				console.log("status: " + status);
 				console.log("error: " + error);
+				createModalNotification("Notification", "An error occurred while trying to add the SWOT Analysis. " + xhr.responseText)
 			}
 	});
 }
@@ -962,15 +963,60 @@ function setSplashLoadVal()
 
 function checkDeleteCss()
 {
-	if(!document.getElementById("swotcard_name").hasAttribute("share_id"))
-	{
-		document.getElementById("deletebutton").style = "background:grey;cursor:default;"
-		document.getElementById("deletebutton").title = "Please load a saved scorecard to delete it"
-		document.getElementById("deletebutton").setAttribute("onclick", "");
-	}
-	else
-	{
-		document.getElementById("deletebutton").style = "cursor:pointer;"
-		document.getElementById("deletebutton").setAttribute("onclick", "confirmDelete()");
-	}
+	if ($("#swotcard_name").length > 0 && $("#deletebutton").length > 0) {
+        if (!document.getElementById("swotcard_name").hasAttribute("share_id")) {
+            document.getElementById("deletebutton").style = "background:grey;cursor:default;"
+            document.getElementById("deletebutton").title = "Please load a saved scorecard to delete it"
+            document.getElementById("deletebutton").setAttribute("onclick", "");
+        }
+        else {
+            document.getElementById("deletebutton").style = "cursor:pointer;"
+            document.getElementById("deletebutton").setAttribute("onclick", "confirmDelete()");
+        }
+    }
+}
+
+function createModalNotification(header, content)
+{
+	var modal = document.createElement("div");
+	modal.className = "modal";
+	modal.id = "notification_modal";
+
+	var headerDiv = document.createElement("div");
+	headerDiv.className = "modalheader";
+
+	var headerText = document.createElement("div");
+	headerText.style = "float:left";
+
+	var closeDiv = document.createElement("div");
+	closeDiv.style = "float:right";
+
+	var closeSpan = document.createElement("div");
+	closeSpan.className = "close";
+	closeSpan.innerHTML = "&times";
+	closeSpan.onclick = function(){
+		$("#notification_modal").remove();
+	};
+
+	var headerElem = document.createElement("p");
+	headerElem.innerHTML = header;
+
+	var contentElem = document.createElement("p");
+	contentElem.innerHTML = content;
+
+	modal.appendChild(headerDiv);
+	headerDiv.appendChild(headerText);
+	headerText.appendChild(headerElem);
+	headerDiv.appendChild(closeDiv);
+	closeDiv.appendChild(closeSpan);
+
+	modal.appendChild(contentElem);
+
+	document.body.appendChild(modal);
+	document.getElementById("notification_modal").style.display = "block";
+}
+
+function newSWOT()
+{
+
 }

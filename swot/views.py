@@ -40,9 +40,12 @@ def related(request):
 def demo(request):
 	return render(request,'swot/demo.html')
 
+def wizard(request):
+	return render(request,'swot/wizard.html')
+
 def login_view(request):
-	request.session['swot_profile'] = json.loads('{"nickname": "' + request.POST['username'] + '"}')
-	return redirect('swot_swotapp')
+	request.session['swot_profile'] = json.loads('{"email": "' + 'test' + '"}')
+	return redirect('swot_accessappsplash')
 
 def saveswot(request):
 	text_json = request.POST['text_json']

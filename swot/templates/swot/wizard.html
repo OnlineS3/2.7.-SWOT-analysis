@@ -1,0 +1,311 @@
+{% extends "swot/base.html" %}
+{% load static %}
+
+{% block addHead %}
+    <!-- Local CSS Files -->
+    <link rel="stylesheet" type="text/css" href="{% static 'css/SWOT.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/appmenu.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/roadmap.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/swotmodal.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/swot_wizard.css' %}">
+
+
+    <!-- JQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+    <!-- Auth0 -->
+    <script src="https://cdn.auth0.com/js/auth0/8.7/auth0.min.js"></script>
+
+    <!-- Local JS Files -->
+    <script type="text/javascript" src="{% static 'js/SWOT.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/roadmap.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/wizard.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+    <div style="float:left; margin-left: 66px; width:752px; margin-bottom:66px;">
+	    <h1 id="section_title">SWOT Analysis Wizard</h1>
+
+        <div id="wizard_progress_bar" style="clear:both; height:46.8px; border-bottom: #0099CC 1px solid;">
+            <div id="stage0" class="progress_bar_item active">
+                <p id="stage0_text" class="progress_bar_text">Setup</p>
+            </div>
+            <div id="stage1" class="progress_bar_item" style="display:none;">
+                <p id="stage1_text" class="progress_bar_text">SWOT</p>
+            </div>
+            <div id="stage2" class="progress_bar_item">
+                <p id="stage2_text" class="progress_bar_text">Strengths</p>
+            </div>
+            <div id="stage3" class="progress_bar_item">
+                <p id="stage3_text" class="progress_bar_text">Weaknesses</p>
+            </div>
+            <div id="stage4" class="progress_bar_item">
+                <p id="stage4_text" class="progress_bar_text">Opportunities</p>
+            </div>
+            <div id="stage5" class="progress_bar_item">
+                <p id="stage5_text" class="progress_bar_text">Threats</p>
+            </div>
+            <div id="stage6" class="progress_bar_item">
+                <p id="stage6_text" class="progress_bar_text">Summary</p>
+            </div>
+
+        </div>
+
+        <div id="setup_wizard_card" class="wizard_card">
+            <div id="create_simple_button" class="splash-button active" style="margin-left:242px;" onclick="selectSwotType('simple')">
+                <div name="icons" style="margin:5px">
+                    <i class="fa fa-cog" aria-hidden="true"></i>
+                </div>
+                <div name="text" style="margin:5px;margin-top:0px;">
+                    <span>Simple SWOT Analysis</span>
+                </div>
+            </div>
+
+            <div id="create_advanced_button" class="splash-button" style="margin-left: 66px;" onclick="selectSwotType('advanced')">
+                <div name="icons" style="margin:5px">
+                    <i class="fa fa-cogs" aria-hidden="true"></i>
+                </div>
+                <div name="text" style="margin:5px;margin-top:0px;">
+                    <span>Advanced SWOT Analysis</span>
+                </div>
+            </div>
+        </div>
+
+        <div id="str_wizard_card" class="wizard_card" style="display:none;">
+        </div>
+
+        <div id="wea_wizard_card" class="wizard_card" style="display:none;">
+        </div>
+
+        <div id="opp_wizard_card" class="wizard_card" style="display:none;">
+        </div>
+
+        <div id="thr_wizard_card" class="wizard_card" style="display:none;">
+        </div>
+
+        <div id="swot_wizard_card" class="wizard_card" style="display:none;">
+        </div>
+
+        <div id="stropp_wizard_card" class="wizard_card" style="display:none;">
+        </div>
+
+        <div id="strthr_wizard_card" class="wizard_card" style="display:none;">
+        </div>
+
+        <div id="weaopp_wizard_card" class="wizard_card" style="display:none;">
+        </div>
+
+        <div id="weathr_wizard_card" class="wizard_card" style="display:none;">
+        </div>
+
+        <div id="summary_wizard_card" class="wizard_card" style="display:none;">
+            <div id="swotcard_name_div">
+                <h1 id="swotcard_name" style="display: inline-block;">SWOT Analysis Title... </h1>
+                <i onclick="showSwotcardNameEdit()" class="fa fa-pencil" aria-hidden="true"></i>
+            </div>
+            <div id="swotcard_edit_div" style="display:none">
+                <textarea id="swotcard_edit" rows="1" cols="50">SWOT Analysis Title...</textarea>
+                <i onclick="hideSwotcardNameEdit()" class="fa fa-floppy-o" aria-hidden="true"></i>
+            </div>
+        </div>
+
+        <div id="wizard_content" style="overflow: auto; margin-top: 10px; border-bottom: #0099cc 1px solid; display:none;">
+            <div id="strengths_div" class="swot_div">
+                <div style="border-bottom: 1px solid #007E33; background: #007E33;">
+                    <h1 class="div_title" style="display:inline;"> Strengths </h1>
+
+                    <div id="owner_dropdown" class="dropdown" style="float:right;">
+                        <button id="strengths_help_button" class="dropbtn" style="background: #007E33;border:1px solid #007E33;"><i class="fa fa-question-circle " aria-hidden="true" style="color:white;"></i></button>
+                        <div id="strengths_help_dropdown" class="dropdown-content">
+                            <ul id="suggestion_list" style="list-style-type: decimal;">
+                                <li>Do you have a differentiation focus?</li>
+                                <li>How are you different from your competition?</li>
+                                <li>Does your region specialize in any areas?</li>
+                                <li>Are any neigboring regions specializing in the same areas as you?</li>
+                                <li>Are there benefits to specializing in a particular area?</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="list_scroll">
+                    <ul id="strength_ul"></ul>
+                </div>
+                <div class="add_value" style="border-top: 1px solid #007E33;">
+                    <input class="value_textbox" type="text" name="strength_input" id="strength_input" placeholder="Add Strength..." onkeydown = "if (event.keyCode == 13) document.getElementById('str_btn').click()">
+                    <button id="str_btn" style="width: 51px; margin-right: 5px;" onclick="addToList('strength')">
+                        Add
+                    </button>
+                </div>
+            </div>
+            <div id="weaknesses_div" class="swot_div">
+                <div style="border-bottom: 1px solid #CC0000; background: #CC0000;">
+                    <h1 class="div_title" style="display:inline;"> Weaknesses </h1>
+
+                    <div id="owner_dropdown" class="dropdown" style="float:right;">
+                        <button id="weaknesses_help_button" class="dropbtn" style="background: #CC0000;border:1px solid #CC0000;"><i class="fa fa-question-circle " aria-hidden="true" style="color:white;"></i></button>
+                        <div id="weaknesses_help_dropdown" class="dropdown-content">
+                            <ul id="suggestion_list" style="list-style-type: decimal;">
+                                <li>Do you have a differentiation focus?</li>
+                                <li>How are you different from your competition?</li>
+                                <li>Does your region specialize in any areas?</li>
+                                <li>Are any neigboring regions specializing in the same areas as you?</li>
+                                <li>Are there benefits to specializing in a particular area?</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="list_scroll">
+                    <ul id="weakness_ul"></ul>
+                </div>
+                <div class="add_value" style="border-top: 1px solid #CC0000;">
+                    <input class="value_textbox" type="text" name="weakness_input" id="weakness_input" placeholder="Add Weakness..." onkeydown = "if (event.keyCode == 13) document.getElementById('wea_btn').click()">
+                    <button id="wea_btn" style="width: 51px; margin-right: 5px;" onclick="addToList('weakness')">
+                        Add
+                    </button>
+                </div>
+            </div>
+            <div id="opportunities_div" class="swot_div">
+                <div style="border-bottom: 1px solid #0099CC; background: #0099CC;">
+                    <h1 class="div_title" style="display:inline;"> Opportunities </h1>
+
+                    <div id="owner_dropdown" class="dropdown" style="float:right;">
+                        <button id="opportunities_help_button" class="dropbtn" style="background: #0099CC;border:1px solid #0099CC;"><i class="fa fa-question-circle " aria-hidden="true" style="color:white;"></i></button>
+                        <div id="opportunities_help_dropdown" class="dropdown-content">
+                            <ul id="suggestion_list" style="list-style-type: decimal;">
+                                <li>Do you have a differentiation focus?</li>
+                                <li>How are you different from your competition?</li>
+                                <li>Does your region specialize in any areas?</li>
+                                <li>Are any neigboring regions specializing in the same areas as you?</li>
+                                <li>Are there benefits to specializing in a particular area?</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="list_scroll">
+                    <ul id="opportunities_ul"></ul>
+                </div>
+                <div class="add_value" style="border-top: 1px solid #0099CC;">
+                    <input class="value_textbox" type="text" name="opportunities_input" id="opportunities_input" placeholder="Add Opportunity..." onkeydown = "if (event.keyCode == 13) document.getElementById('opp_btn').click()">
+                    <button id="opp_btn" style="width: 51px; margin-right: 5px;" onclick="addToList('opportunities')">
+                        Add
+                    </button>
+                </div>
+            </div>
+            <div id="threats_div" class="swot_div">
+                <div style="border-bottom: 1px solid #FF8800; background: #FF8800;">
+                    <h1 class="div_title" style="display:inline;"> Threats </h1>
+
+                    <div id="owner_dropdown" class="dropdown" style="float:right;">
+                        <button id="threats_help_button" class="dropbtn" style="background: #FF8800;border:1px solid #FF8800;"><i class="fa fa-question-circle " aria-hidden="true" style="color:white;"></i></button>
+                        <div id="threats_help_dropdown" class="dropdown-content">
+                            <ul id="suggestion_list" style="list-style-type: decimal;">
+                                <li>Do you have a differentiation focus?</li>
+                                <li>How are you different from your competition?</li>
+                                <li>Does your region specialize in any areas?</li>
+                                <li>Are any neigboring regions specializing in the same areas as you?</li>
+                                <li>Are there benefits to specializing in a particular area?</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="list_scroll">
+                    <ul id="threat_ul"></ul>
+                </div>
+                <div class="add_value" style="border-top: 1px solid #FF8800;">
+                    <input class="value_textbox" type="text" name="threat_input" id="threat_input" placeholder="Add Threat..." onkeydown = "if (event.keyCode == 13) document.getElementById('thr_btn').click()">
+                    <button id="thr_btn" style="width: 51px; margin-right: 5px;" onclick="addToList('threat')">
+                        Add
+                    </button>
+                </div>
+            </div>
+
+            <!-- str_opp_layout -->
+            <div id="str_opp_div" class="swot_div">
+                <div style="border-bottom: 1px solid #007E33; background: #007E33;">
+                    <h1 class="div_title"> Strengths/Opportunities Plan </h1>
+                </div>
+                <div class="large_scroll">
+                    <ul id="str_opp_ul"></ul>
+                </div>
+                <div class="add_plan" style="border-top: 1px solid #007E33;">
+                    <input class="plan_textbox" type="text" name="str_opp_input" id="str_opp_input" placeholder="Add Plan..." onkeydown = "if (event.keyCode == 13) document.getElementById('str_opp_btn').click()">
+                    <button id="str_opp_btn" style="width: 51px; margin-right: 5px;" onclick="addToList('str_opp')">
+                        Add
+                    </button>
+                </div>
+            </div>
+            <!-- str_opp_layout -->
+            <!-- str_thr_layout -->
+            <div id="str_thr_div" class="swot_div">
+                <div style="border-bottom: 1px solid #007E33; background: #007E33;">
+                    <h1 class="div_title"> Strengths/Threats Plan </h1>
+                </div>
+                <div class="large_scroll">
+                    <ul id="str_thr_ul"></ul>
+                </div>
+                <div class="add_plan" style="border-top: 1px solid #007E33;">
+                    <input class="plan_textbox" type="text" name="str_thr_input" id="str_thr_input" placeholder="Add Plan..." onkeydown = "if (event.keyCode == 13) document.getElementById('str_thr_btn').click()">
+                    <button id="str_thr_btn" style="width: 51px; margin-right: 5px;" onclick="addToList('str_thr')">
+                        Add
+                    </button>
+                </div>
+            </div>
+            <!-- str_thr_layout -->
+
+            <!-- wea_opp_layout -->
+            <div id="wea_opp_div" class="swot_div">
+                <div style="border-bottom: 1px solid #007E33; background: #007E33;">
+                    <h1 class="div_title"> Weaknesses/Opportunities Plan </h1>
+                </div>
+                <div class="large_scroll">
+                    <ul id="wea_opp_ul"></ul>
+                </div>
+                <div class="add_plan" style="border-top: 1px solid #007E33;">
+                    <input class="plan_textbox" type="text" name="wea_opp_input" id="wea_opp_input" placeholder="Add Plan..." onkeydown = "if (event.keyCode == 13) document.getElementById('wea_opp_btn').click()">
+                    <button id="wea_opp_btn" style="width: 51px; margin-right: 5px;" onclick="addToList('wea_opp')">
+                        Add
+                    </button>
+                </div>
+            </div>
+            <!-- wea_opp_layout -->
+
+            <!-- wea_thr_layout -->
+            <div id="wea_thr_div" class="swot_div">
+                <div style="border-bottom: 1px solid #007E33; background: #007E33;">
+                    <h1 class="div_title"> Weaknesses/Threats Plan </h1>
+                </div>
+                <div class="large_scroll">
+                    <ul id="wea_thr_ul"></ul>
+                </div>
+                <div class="add_plan" style="border-top: 1px solid #007E33;">
+                    <input class="plan_textbox" type="text" name="wea_thr_input" id="wea_thr_input" placeholder="Add Plan..." onkeydown = "if (event.keyCode == 13) document.getElementById('wea_thr_btn').click()">
+                    <button id="wea_thr_btn" style="width: 51px; margin-right: 5px;" onclick="addToList('wea_thr')">
+                        Add
+                    </button>
+                </div>
+            </div>
+            <!-- wea_thr_layout -->
+        </div>
+
+        <div id="wizard_nav_buttons" style="float: right;clear:both;">
+            <button id="prev_step_button" class="s3_button" onclick="" style="display:none">Previous</button>
+            <button id="next_step_button" class="s3_button" onclick="">Next</button>
+            <button id="finish_step_button" class="s3_button" style="display:none" onclick="saveToDB();resetWizard();">Finish</button>
+            <form id="savebutton" action="{% url 'swot_savetodb' %}" style="display:none"></form>
+        </div>
+    </div>
+
+
+
+
+    <!-- Page Menus -->
+    <!-- <div style="float: left; margin-left: 66px; margin-bottom: 66px;"> -->
+        <!-- {% include "swot/online_steps.html" %} -->
+        <aside id='sidebar'>
+            <a href="{% static 'data/SWOT_Analysis_Guideline.pdf' %}" target="_blank">
+                <button class="alt"> Download Guide  <i class="fa fa-file-pdf-o" aria-hidden="true"></i></button>
+            </a>
+        </aside>
+    <!-- </div> -->
+    <!-- Page Menus -->
+{% endblock %}
