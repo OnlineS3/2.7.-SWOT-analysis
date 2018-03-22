@@ -106,3 +106,10 @@ div#summary_wizard_card #threats_div[simple]
 }
 
 .progress_bar_item:hover > .progress_bar_text { color:white; }
+
+#wizard_progress_bar {
+    clear:both;
+    height:46.8px;
+    border-bottom: #0099CC 1px solid;
+    margin-bottom:15px;
+}

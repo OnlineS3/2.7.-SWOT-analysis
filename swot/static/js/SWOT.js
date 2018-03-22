@@ -252,6 +252,7 @@ function printPDF()
 	}
 
 	var divContents = document.getElementById("swot_div").outerHTML;
+	//$('.dropdown').hide();
 
 	var printWindow = "";
 	printWindow += '<html><head><title>DIV Contents</title>';
@@ -259,6 +260,8 @@ function printPDF()
 	printWindow += '<h1>'+ document.getElementById('swotcard_name').innerHTML +'</h1>';
 	printWindow += divContents;
 	printWindow += '</body></html>';
+
+
 
 	if(list2.id == "swot_button")
 	{

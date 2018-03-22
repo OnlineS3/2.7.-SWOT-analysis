@@ -106,3 +106,7 @@ ul li {
 	padding: 1px 0px;
 }
 
+.dropdown {
+    display:none;
+}
+
